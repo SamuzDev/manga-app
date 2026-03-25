@@ -1,20 +1,19 @@
 /**
- * Auth Service - Sistema de autenticación con JWT
+ * Auth Service - Sistema de autenticación con JWT usando jose
  * 
  * Este servicio maneja toda la autenticación localmente en el dispositivo.
  * No requiere servidor externo - usa JWT para tokens y AsyncStorage para persistencia.
  * 
- * Para producción, esto se conectaría a un backend real.
+ * jose es compatible con React Native (no requiere crypto nativo).
  */
 
-import jwt from 'jsonwebtoken';
+import * as jose from 'jose';
 import * as SecureStore from 'expo-secure-store';
-import { storageUtils, StorageKeys } from '@/services/storage/mmkv';
 
 // Configuración de JWT
-const JWT_SECRET = 'manga-app-secret-key-2024'; // En producción, usar variable de entorno
-const TOKEN_EXPIRY = '7d'; // 7 días
-const REFRESH_TOKEN_EXPIRY = '30d'; // 30 días
+const JWT_SECRET = new TextEncoder().encode('manga-app-secret-key-2024');
+const TOKEN_EXPIRY = 60 * 60 * 24 * 7; // 7 días en segundos
+const REFRESH_TOKEN_EXPIRY = 60 * 60 * 24 * 30; // 30 días en segundos
 
 // Tipos
 export interface User {
@@ -33,41 +32,40 @@ export interface AuthTokens {
 const USER_KEY = 'manga_app_user';
 const TOKENS_KEY = 'manga_app_tokens';
 
+// Base de datos de usuarios en memoria
+const usersDB = new Map<string, { user: User; passwordHash: string }>();
+
 // Generar ID único
 const generateId = (): string => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 };
 
 // Generar tokens JWT
-const generateTokens = (user: User): AuthTokens => {
-  const accessToken = jwt.sign(
-    { userId: user.id, username: user.username },
-    JWT_SECRET,
-    { expiresIn: TOKEN_EXPIRY }
-  );
+const generateTokens = async (user: User): Promise<AuthTokens> => {
+  const accessToken = await new jose.SignJWT({ userId: user.id, username: user.username })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime(TOKEN_EXPIRY)
+    .sign(JWT_SECRET);
 
-  const refreshToken = jwt.sign(
-    { userId: user.id, type: 'refresh' },
-    JWT_SECRET,
-    { expiresIn: REFRESH_TOKEN_EXPIRY }
-  );
+  const refreshToken = await new jose.SignJWT({ userId: user.id, type: 'refresh' })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime(REFRESH_TOKEN_EXPIRY)
+    .sign(JWT_SECRET);
 
   return { accessToken, refreshToken };
 };
 
 // Verificar token JWT
-const verifyToken = (token: string): { userId: string; username?: string } | null => {
+const verifyToken = async (token: string): Promise<{ userId: string; username?: string } | null> => {
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
-    return decoded;
+    const { payload } = await jose.jwtVerify(token, JWT_SECRET);
+    return payload as { userId: string; username?: string };
   } catch (error) {
     return null;
   }
 };
-
-// Base de datos de usuarios en memoria (para desarrollo)
-// En producción, esto se reemplazaría con llamadas a un backend
-const usersDB = new Map<string, { user: User; passwordHash: string }>();
 
 // Clase de autenticación
 class AuthService {
@@ -95,14 +93,14 @@ class AuthService {
       createdAt: new Date().toISOString(),
     };
 
-    // Hash simple de contraseña (en producción, usar bcrypt)
+    // Hash simple de contraseña
     const passwordHash = this.simpleHash(password);
 
     // Guardar usuario
     usersDB.set(user.id, { user, passwordHash });
 
     // Generar tokens
-    const tokens = generateTokens(user);
+    const tokens = await generateTokens(user);
 
     // Guardar en storage seguro
     await this.saveTokens(tokens);
@@ -131,7 +129,7 @@ class AuthService {
     }
 
     // Generar tokens
-    const tokens = generateTokens(userRecord.user);
+    const tokens = await generateTokens(userRecord.user);
 
     // Guardar en storage seguro
     await this.saveTokens(tokens);
@@ -160,7 +158,7 @@ class AuthService {
       const user: User = JSON.parse(userJson);
 
       // Verificar que el token no ha expirado
-      const decoded = verifyToken(tokens.accessToken);
+      const decoded = await verifyToken(tokens.accessToken);
       if (!decoded) {
         // Token expirado, intentar refresh
         const refreshed = await this.refreshSession(tokens.refreshToken);
@@ -182,9 +180,9 @@ class AuthService {
   // Refrescar sesión
   async refreshSession(refreshToken: string): Promise<{ user: User; tokens: AuthTokens } | null> {
     try {
-      const decoded = jwt.verify(refreshToken, JWT_SECRET) as any;
+      const decoded = await verifyToken(refreshToken);
 
-      if (decoded.type !== 'refresh') {
+      if (!decoded || (decoded as any).type !== 'refresh') {
         return null;
       }
 
@@ -195,7 +193,7 @@ class AuthService {
       }
 
       // Generar nuevos tokens
-      const tokens = generateTokens(userRecord.user);
+      const tokens = await generateTokens(userRecord.user);
 
       // Guardar nuevos tokens
       await this.saveTokens(tokens);
@@ -223,7 +221,7 @@ class AuthService {
     await SecureStore.setItemAsync(USER_KEY, JSON.stringify(user));
   }
 
-  // Hash simple de contraseña (NO usar en producción)
+  // Hash simple de contraseña
   private simpleHash(str: string): string {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
