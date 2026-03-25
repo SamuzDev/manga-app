@@ -1,5 +1,5 @@
 /**
- * Home Screen - Pantalla principal con series de YupManga (español)
+ * YupManga Explore Screen - Exploración de series
  */
 
 import React, { useEffect, useState, useCallback } from 'react';
@@ -8,12 +8,12 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  SafeAreaView,
-  RefreshControl,
+  TextInput,
   TouchableOpacity,
   Dimensions,
+  RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
 import { Theme, FontSizes, Spacing, BorderRadius } from '@/constants/theme';
@@ -24,39 +24,65 @@ import type { YupSeriesListItem } from '@/types/yupmanga';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_WIDTH = (SCREEN_WIDTH - Spacing.md * 2 - Spacing.sm * 3) / 2;
 
-export default function HomeScreen() {
+export default function YupExploreScreen() {
   const router = useRouter();
   const [series, setSeries] = useState<YupSeriesListItem[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const loadSeries = async (refresh = false) => {
+  useEffect(() => {
+    loadPopularSeries();
+  }, []);
+
+  const loadPopularSeries = async () => {
     try {
-      if (refresh) {
-        setIsRefreshing(true);
-      } else {
-        setIsLoading(true);
-      }
+      setIsLoading(true);
       setError(null);
-
       const data = await yupMangaAPI.getPopularSeries();
       setSeries(data);
     } catch (err) {
       console.error('Error loading series:', err);
-      setError('Error al cargar las series. Intenta de nuevo.');
+      setError('Error al cargar las series');
     } finally {
       setIsLoading(false);
-      setIsRefreshing(false);
     }
   };
 
-  useEffect(() => {
-    loadSeries();
-  }, []);
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) {
+      loadPopularSeries();
+      return;
+    }
 
-  const onRefresh = () => {
-    loadSeries(true);
+    try {
+      setIsSearching(true);
+      setError(null);
+      const results = await yupMangaAPI.searchSeries(searchQuery.trim());
+      const seriesList: YupSeriesListItem[] = results.map(r => ({
+        id: r.id,
+        title: r.title,
+        coverUrl: r.coverUrl,
+        status: r.status,
+        type: 'manga',
+        totalVolumes: 0,
+      }));
+      setSeries(seriesList);
+    } catch (err) {
+      console.error('Error searching:', err);
+      setError('Error al buscar series');
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    setSearchQuery('');
+    await loadPopularSeries();
+    setRefreshing(false);
   };
 
   const renderSeriesCard = useCallback(({ item }: { item: YupSeriesListItem }) => (
@@ -106,49 +132,70 @@ export default function HomeScreen() {
     return <Loading fullScreen message="Cargando series..." />;
   }
 
-  if (error) {
-    return (
-      <View style={styles.centerContainer}>
-        <Text style={styles.errorText}>{error}</Text>
-        <TouchableOpacity onPress={() => loadSeries()}>
-          <Text style={styles.retryText}>Reintentar</Text>
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>YupManga</Text>
+        <Text style={styles.headerSubtitle}>Series en español</Text>
+      </View>
+
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Buscar series..."
+          placeholderTextColor={Theme.textTertiary}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          onSubmitEditing={handleSearch}
+          returnKeyType="search"
+        />
+        <TouchableOpacity 
+          style={styles.searchButton}
+          onPress={handleSearch}
+          disabled={isSearching}
+        >
+          {isSearching ? (
+            <ActivityIndicator color="#fff" size="small" />
+          ) : (
+            <Text style={styles.searchButtonText}>🔍</Text>
+          )}
         </TouchableOpacity>
       </View>
-    );
-  }
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
-      
-      <View style={styles.header}>
-        <Text style={styles.title}>YupManga</Text>
-        <Text style={styles.subtitle}>Manga en español</Text>
-      </View>
-
-      <FlatList
-        data={series}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.listContent}
-        renderItem={renderSeriesCard}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-            tintColor={Theme.primary}
-            colors={[Theme.primary]}
-          />
-        }
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No hay series disponibles</Text>
-          </View>
-        }
-      />
-    </SafeAreaView>
+      {error ? (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{error}</Text>
+          <TouchableOpacity onPress={loadPopularSeries}>
+            <Text style={styles.retryText}>Reintentar</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <FlatList
+          data={series}
+          renderItem={renderSeriesCard}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          columnWrapperStyle={styles.row}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={Theme.primary}
+              colors={[Theme.primary]}
+            />
+          }
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>
+                {searchQuery ? 'No se encontraron series' : 'No hay series disponibles'}
+              </Text>
+            </View>
+          }
+        />
+      )}
+    </View>
   );
 }
 
@@ -157,31 +204,52 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background,
   },
-  centerContainer: {
-    flex: 1,
-    backgroundColor: Theme.background,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: Spacing.xl,
-  },
   header: {
     paddingHorizontal: Spacing.md,
     paddingTop: Spacing.lg,
     paddingBottom: Spacing.md,
   },
-  title: {
+  headerTitle: {
     fontSize: FontSizes['3xl'],
     fontWeight: 'bold',
     color: Theme.text,
-    marginBottom: Spacing.xs,
   },
-  subtitle: {
-    fontSize: FontSizes.base,
+  headerSubtitle: {
+    fontSize: FontSizes.sm,
     color: Theme.textSecondary,
+    marginTop: Spacing.xs,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: Spacing.md,
+    marginBottom: Spacing.md,
+    gap: Spacing.sm,
+  },
+  searchInput: {
+    flex: 1,
+    height: 48,
+    backgroundColor: Theme.backgroundSecondary,
+    borderRadius: BorderRadius.md,
+    paddingHorizontal: Spacing.md,
+    color: Theme.text,
+    fontSize: FontSizes.base,
+    borderWidth: 1,
+    borderColor: Theme.border,
+  },
+  searchButton: {
+    width: 48,
+    height: 48,
+    backgroundColor: Theme.primary,
+    borderRadius: BorderRadius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  searchButtonText: {
+    fontSize: 20,
   },
   listContent: {
     paddingHorizontal: Spacing.md,
-    paddingBottom: Spacing.xl,
+    paddingBottom: Spacing['2xl'],
   },
   row: {
     justifyContent: 'space-between',
@@ -262,9 +330,15 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.xs,
     color: Theme.textSecondary,
   },
+  errorContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: Spacing.xl,
+  },
   errorText: {
     color: Theme.error,
-    fontSize: FontSizes.lg,
+    fontSize: FontSizes.base,
     textAlign: 'center',
     marginBottom: Spacing.md,
   },

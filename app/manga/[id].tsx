@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { Theme, FontSizes, Spacing, BorderRadius } from '@/constants/theme';
 import { Loading } from '@/components/ui/Loading';
@@ -24,6 +24,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function MangaDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const router = useRouter();
   const [manga, setManga] = useState<Manga | null>(null);
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -162,6 +163,7 @@ export default function MangaDetailScreen() {
                 key={chapter.id}
                 style={styles.chapterItem}
                 activeOpacity={0.7}
+                onPress={() => router.push(`/read/${chapter.id}?mangaId=${id}` as any)}
               >
                 <View style={styles.chapterInfo}>
                   <Text style={styles.chapterTitle}>
