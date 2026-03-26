@@ -1,0 +1,2112 @@
+  <!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- PWA Tags -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#111111">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- iOS PWA Tags (apple-mobile-web-app-capable necesario para Safari iOS) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="YupManga">
+    <!-- Fin PWA Tags -->
+    
+    <title>Comunidad de mangas en español - Yupmanga</title>
+    <meta name="description" content="Lee manga y manhwa en español en Yupmanga. Descubre nuevas series, rankings y comunidad lectora.">
+
+        
+        <link rel="canonical" href="https://www.yupmanga.com/index.php">
+    
+        <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.yupmanga.com/index.php">
+    <meta property="og:title" content="Comunidad de mangas en español - Yupmanga">
+    <meta property="og:description" content="Lee manga y manhwa en español en Yupmanga. Descubre nuevas series, rankings y comunidad lectora.">
+    <meta property="og:image" content="https://www.yupmanga.com/img/logo_og.png">
+    <meta property="og:image:secure_url" content="https://www.yupmanga.com/img/logo_og.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="YupManga">
+    <meta property="og:locale" content="es_ES">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Comunidad de mangas en español - Yupmanga">
+    <meta name="twitter:description" content="Lee manga y manhwa en español en Yupmanga. Descubre nuevas series, rankings y comunidad lectora.">
+    <meta name="twitter:image" content="https://www.yupmanga.com/img/logo_og.png">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Comunidad de mangas en español - Yupmanga",
+    "description": "Lee manga y manhwa en español en Yupmanga. Descubre nuevas series, rankings y comunidad lectora.",
+    "url": "https://www.yupmanga.com/index.php",
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://www.yupmanga.com/busqueda-avanzada?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "YupManga",
+        "url": "https://www.yupmanga.com",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.yupmanga.com/img/logo3.png",
+            "width": 200,
+            "height": 60
+        }
+    }
+}
+</script>
+    <link rel="icon" type="image/png" href="/img/favicon.png" sizes="32x32">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/img/favicon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+
+    <!-- 🚀 Resource Hints - Optimización de carga (ahorra 200-400ms) -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+    <!-- Preload logo con prioridad alta para LCP -->
+    <link rel="preload" href="/img/logo3.png" as="image" fetchpriority="high">
+
+    <!-- Preload CSS para iniciar descarga temprana -->
+    <link rel="preload" href="/css/tailwind-complete-final.css" as="style">
+
+    <!-- Tailwind CSS - Carga bloqueante pero optimizada con preload -->
+    <link rel="stylesheet" href="/css/tailwind-complete-final.css">
+
+    <!-- Font Awesome - Carga diferida para no bloquear render inicial -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    
+    <!-- Lazy Loading CSS (inline para evitar render-blocking) -->
+    <style>
+        /* Estilos para lazy loading de imágenes */
+        .comic-card{position:relative;overflow:hidden}
+        .comic-card .placeholder{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(110deg,#1f1f1f 8%,#2a2a2a 18%,#1f1f1f 33%);background-size:200% 100%;animation:shimmer 1.5s linear infinite;opacity:1;transition:opacity .3s ease-in-out;z-index:1}
+        @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+        .comic-card img{position:relative;z-index:2}
+        .comic-card img[loading="lazy"]{opacity:0;transition:opacity .3s ease-in-out}
+        .comic-card img[loading="eager"]{opacity:1}
+        .comic-card img.loaded{opacity:1}
+        .comic-card img.loaded ~ .placeholder,.comic-card img[loading="eager"] ~ .placeholder{opacity:0;pointer-events:none}
+        @media (max-width:768px){.placeholder{animation:none!important;background:#2a2a2a!important}}
+    </style>
+        <script src="/js/native-lazy-init.js?v=1.1.0" defer></script>
+
+    <style>
+        .fa, .fas, .far, .fab {
+            width: 1em;
+            height: 1em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-container {
+            min-width: 1em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    <style>html, body { max-width: 100%; overflow-x: hidden; }</style>
+    <!-- CSS Container personalizado ELIMINADO - ahora usa TailwindCSS puro -->
+<!-- TailwindCSS config comentado - ahora usando CSS estático -->
+<!-- <script>tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1', 800: '#075985', 900: '#0c4a6e', }, zinc: { 900: '#18181b', }, }, }, }, };</script> -->
+<style type="text/css">
+    .comic-card { background-color: rgb(31, 41, 55); overflow: hidden; }
+    .comic-cover { width: 100%; height: 300px; object-fit: cover; }
+    .menu-slide-enter { transition-property: all; transition-duration: 200ms; transform: translateX(100%); opacity: 0; }
+    .menu-slide-enter-active { transform: translateX(0); opacity: 1; }
+    .menu-slide-exit { transition-property: all; transition-duration: 200ms; transform: translateX(0); opacity: 1; }
+    .menu-slide-exit-active { transform: translateX(100%); opacity: 0; }
+    .avatar-container { width: 2rem; height: 2rem; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; font-weight: 500; }
+    .avatar-image { width: 100%; height: 100%; border-radius: 9999px; object-fit: cover; }
+    .avatar-initial { width: 100%; height: 100%; border-radius: 9999px; background-color: #0284c7; display: flex; align-items: center; justify-content: center; color: white; text-transform: uppercase; }
+    .menu-dropdown { transition-property: all; transition-duration: 300ms; transition-delay: 0s; }
+    .group:hover .menu-dropdown { transition-delay: 0s; }
+    .menu-dropdown:hover { transition-delay: 0s; }
+    .group:not(:hover) .menu-dropdown { transition-delay: 0.9s; }
+</style>
+<style type="text/css">.search-results { position: absolute; top: 100%; left: 0; right: 0; background: #010104; border: 1px solid #374151; border-top: none; border-radius: 0 0 0.5rem 0.5rem; margin-top: -1px; max-height: 400px; overflow-y: auto; z-index: 50; display: none; }
+.search-result-item { padding: 0.75rem; border-bottom: 1px solid #374151; cursor: pointer; }
+.search-result-item:hover { background: #374151; }
+.search-result-item:last-child { border-bottom: none; }</style>
+    <!-- PWA Service Worker Registration -->
+    <!-- Service Worker Initialization (External Script) -->
+    <script src="/js/service-worker-init.js?v=1.1.0" defer></script>
+    <!-- Fin PWA Service Worker Registration -->
+    
+    <!-- Google tag (gtag.js) - Optimizado para no bloquear el parsing -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VS97ZKV9G7');
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VS97ZKV9G7"></script>    <script>window.addEventListener('pageshow',function(e){var s=document.body.getAttribute('data-logged-in');if(e.persisted){if(localStorage.getItem('yup_auth')!==s)location.reload();return}localStorage.setItem('yup_auth',s)});</script>
+</head>
+<body class="bg-zinc-900 text-white overflow-x-hidden" data-logged-in="false">
+    <nav class="bg-black h-14 relative w-full">
+        <div class="h-full w-full px-2 sm:px-4 lg:px-8 mx-auto container">
+            <!-- Barra de búsqueda móvil expandible -->
+            <div id="mobileSearch"
+                 class="absolute left-0 top-0 w-full h-14 bg-black transform transition-all duration-200 -translate-y-full lg:hidden z-20">
+                <div class="flex items-center h-full px-2">
+                    <div class="relative flex-1">
+                        <input type="text"
+                               id="searchInputMobile"
+                               placeholder="Escribe aqui la serie que buscas..."
+                               class="w-full min-h-[40px] min-w-[200px] px-3 py-2 pr-10 text-sm text-white bg-gray-800 rounded-lg
+                                      border border-gray-700 focus:border-blue-500 focus:ring-2
+                                      focus:ring-blue-500 focus:outline-none">
+                        <!-- Botón de búsqueda avanzada móvil -->
+                        <button id="searchButtonMobile" 
+                                class="absolute right-2 top-1/2 transform -translate-y-1/2 p-1.5 text-gray-400 hover:text-white 
+                                       hover:bg-gray-700 rounded transition-all duration-200 opacity-0 pointer-events-none"
+                                aria-label="Ver más resultados"
+                                title="Ver más resultados">
+                            <i class="fas fa-arrow-right text-sm"></i>
+                        </button>
+                        <div id="searchResultsMobile"
+                             class="absolute left-0 right-0 -mt-px bg-black border border-gray-700 border-t-0
+                                    rounded-b-lg shadow-lg overflow-hidden z-50 max-h-96 overflow-y-auto hidden">
+                        </div>
+                    </div>
+                    <button id="closeMobileSearch"
+                            class="ml-2 p-2 min-h-[40px] min-w-[40px] text-gray-400 hover:text-white rounded-lg
+                                   transition-colors duration-200 hover:bg-gray-700
+                                   focus:outline-none focus:ring-2 focus:ring-gray-600"
+                            aria-label="Cerrar búsqueda">
+                        <span class="icon-container"><i class="fas fa-times text-lg"></i></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between h-full gap-2 sm:gap-4">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/">
+                        <img src="/img/logo3.png" alt="Logo" width="167" height="32" class="h-7 sm:h-8 w-auto">
+                    </a>
+                </div>
+
+                <!-- Barra de búsqueda escritorio (visible en lg+) -->
+                <div class="hidden lg:block flex-1 max-w-2xl mx-4 relative">
+                    <div class="relative min-w-[200px]">
+                        <input type="text" 
+                               id="searchInput"
+                               placeholder="Escribe aqui la serie que buscas..." 
+                               class="w-full min-h-[40px] min-w-[200px] px-3 py-2 pr-10 text-sm text-white bg-gray-800 rounded-lg
+                                      border border-gray-700 focus:border-blue-500 focus:ring-2
+                                      focus:ring-blue-500 focus:outline-none">
+                        <!-- Botón de búsqueda avanzada escritorio -->
+                        <button id="searchButton" 
+                                class="absolute right-2 top-1/2 transform -translate-y-1/2 p-1.5 text-gray-400 hover:text-white 
+                                       hover:bg-gray-700 rounded transition-all duration-200 opacity-0 pointer-events-none"
+                                aria-label="Ver más resultados"
+                                title="Ver más resultados">
+                            <i class="fas fa-arrow-right text-sm"></i>
+                        </button>
+                        <div id="searchResults" class="search-results"></div>
+                    </div>
+                </div>
+
+                <!-- Botones móviles -->
+                <div class="flex items-center gap-3 min-[576px]:hidden">
+                    <button id="mobileSearchButton" 
+                            class="p-2 min-h-[40px] min-w-[40px] text-gray-400 hover:text-white rounded-lg
+                                   transition-colors duration-200 hover:bg-gray-700
+                                   focus:outline-none focus:ring-2 focus:ring-gray-600"
+                            aria-label="Buscar">
+                        <span class="icon-container"><i class="fas fa-search"></i></span>
+                    </button>
+                                            <a href="/login" 
+                           class="p-2 min-h-[40px] min-w-[40px] text-gray-400 hover:text-white rounded-lg
+                                  transition-colors duration-200 hover:bg-gray-700
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600"
+                           aria-label="Iniciar sesión">
+                            <span class="icon-container"><i class="fas fa-sign-in-alt"></i></span>
+                        </a>
+                                        <a href="/comunidad"
+                       class="p-2 min-h-[40px] min-w-[40px] text-gray-400 hover:text-white rounded-lg
+                              transition-colors duration-200 hover:bg-gray-700
+                              focus:outline-none focus:ring-2 focus:ring-gray-600 relative"
+                       aria-label="Comunidad">
+                        <span class="icon-container"><i class="fas fa-users"></i></span>
+                    </a>
+                                        <button id="menuButton" 
+                            class="p-2 min-h-[40px] min-w-[40px] text-gray-400 hover:text-white rounded-lg
+                                   transition-colors duration-200 hover:bg-gray-700
+                                   focus:outline-none focus:ring-2 focus:ring-gray-600"
+                            aria-label="Menú principal">
+                        <span class="icon-container"><i class="fas fa-bars"></i></span>
+                    </button>
+                </div>
+
+                <!-- Enlaces desktop -->
+                <div class="hidden min-[576px]:flex items-center gap-4">
+                    <!-- Botón de búsqueda (visible solo en resoluciones <1024px) -->
+                    <button id="desktopSearchButton"
+                            class="lg:hidden flex items-center justify-center w-10 h-10 text-gray-400 hover:text-white rounded-lg
+                                   border border-gray-700 bg-gray-800/50 hover:bg-gray-700 hover:border-gray-600
+                                   transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-600"
+                            aria-label="Buscar">
+                        <span class="icon-container"><i class="fas fa-search text-center"></i></span>
+                    </button>
+                    <a href="/" 
+                       class="flex items-center justify-center xl:justify-start w-10 xl:w-auto xl:px-3 h-10 text-sm font-medium
+                              border rounded-lg transition-all duration-200 
+                              focus:outline-none focus:ring-2 focus:ring-gray-600
+                              text-white bg-gray-700 border-gray-600">
+                        <span class="icon-container"><i class="fas fa-home text-center"></i></span>
+                        <span class="hidden 2xl:inline ml-2">Inicio</span>
+                    </a>
+                    <a href="/categorias"
+                       class="flex items-center justify-center xl:justify-start w-10 xl:w-auto xl:px-3 h-10 text-sm font-medium
+                              border rounded-lg transition-all duration-200
+                              focus:outline-none focus:ring-2 focus:ring-gray-600
+                              text-gray-300 border-gray-700 hover:text-white hover:bg-gray-700 hover:border-gray-600">
+                        <span class="icon-container"><i class="fas fa-th-large text-center"></i></span>
+                        <span class="hidden xl:inline ml-2">Categorías</span>
+                    </a>
+                    <a href="/listas"
+                       class="flex items-center justify-center xl:justify-start w-10 xl:w-auto xl:px-3 h-10 text-sm font-medium
+                              border rounded-lg transition-all duration-200
+                              focus:outline-none focus:ring-2 focus:ring-gray-600
+                              text-gray-300 border-gray-700 hover:text-white hover:bg-gray-700 hover:border-gray-600">
+                        <span class="icon-container"><i class="fas fa-list-ul text-center"></i></span>
+                        <span class="hidden xl:inline ml-2">Listas</span>
+                    </a>
+                    <a href="/comunidad"
+                       class="relative group flex items-center justify-center xl:justify-start w-10 xl:w-auto xl:px-3 h-10 text-sm font-medium
+                              border rounded-lg transition-all duration-200
+                              focus:outline-none focus:ring-2 focus:ring-gray-600
+                              text-gray-300 border-gray-700 hover:text-white hover:bg-gray-700 hover:border-gray-600">
+                        <span class="icon-container"><i class="fas fa-users text-center"></i></span>
+                        <span class="hidden xl:inline ml-2">Chat</span>
+                    </a>
+
+                    <!-- Enlaces que se muestran solo en MD y superiores -->
+                    <div class="hidden md:flex items-center gap-4">
+                        <a href="/busqueda-avanzada"
+                           class="hidden xl:flex items-center justify-center 2xl:justify-start w-10 2xl:w-auto 2xl:px-3 h-10 text-sm font-medium
+                                  border rounded-lg transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  border-gray-700 hover:bg-gray-800/50 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-search text-center"></i></span>
+                            <span class="hidden xl:inline ml-2">Búsqueda</span>
+                        </a>
+                        <a href="/articulos"
+                           class="hidden xl:flex items-center justify-center 2xl:justify-start w-10 2xl:w-auto 2xl:px-3 h-10 text-sm font-medium
+                                  border rounded-lg transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  text-gray-300 border-gray-700 hover:text-white hover:bg-gray-700 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-newspaper text-center"></i></span>
+                            <span class="hidden xl:inline ml-2">Artículos</span>
+                        </a>
+                        <a href="/puntuaciones"
+                           class="flex items-center justify-center w-10 h-10 text-sm font-medium
+                                  border rounded-lg transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  border-gray-700 hover:bg-gray-800/50 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-star text-center"></i></span>
+                        </a>
+                        <a href="/comentarios"
+                           class="flex items-center justify-center w-10 h-10 text-sm font-medium
+                                  border rounded-lg transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  border-gray-700 hover:bg-gray-800/50 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-comments text-center"></i></span>
+                        </a>
+                        <a href="/suerte"
+                           class="hidden xl:flex items-center justify-center w-10 h-10 text-sm font-medium
+                                  border rounded-lg transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  border-gray-700 hover:bg-gray-800/50 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-dice text-center"></i></span>
+                        </a>
+                        
+                    </div>
+
+                    <!-- Menú hamburguesa para Small/Medium/Large (visible para todos) -->
+                    <div class="xl:hidden relative">
+                        <button id="smallMenuButton"
+                                class="flex items-center justify-center w-10 h-10 rounded-lg text-sm border border-gray-700 bg-gray-800/50 hover:bg-gray-700 hover:border-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-600"
+                                aria-label="Abrir menú rápido"
+                                aria-expanded="false"
+                                aria-haspopup="true">
+                            <span class="icon-container"><i class="fas fa-bars text-center"></i></span>
+                        </button>
+                        <!-- Menú desplegable para Small/Medium -->
+                        <div id="smallMenu"
+                             class="absolute right-0 mt-2 w-48 py-2 bg-zinc-950 rounded-lg shadow-xl hidden z-[9999]">
+                            <!-- Solo visible en < 768px (ya están en header como iconos en md+) -->
+                            <a href="/puntuaciones" class="md:hidden block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                                <span class="icon-container"><i class="fas fa-star mr-2"></i></span>Puntuaciones
+                            </a>
+                            <a href="/comentarios" class="md:hidden block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                                <span class="icon-container"><i class="fas fa-comments mr-2"></i></span>Comentarios
+                            </a>
+                            <!-- Siempre visible en smallMenu (no están en header en md-lg) -->
+                            <a href="/busqueda-avanzada" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                                <span class="icon-container"><i class="fas fa-search mr-2"></i></span>Búsqueda avanzada
+                            </a>
+                            <a href="/articulos" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                                <span class="icon-container"><i class="fas fa-newspaper mr-2"></i></span>Artículos
+                            </a>
+                            <a href="/suerte" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                                <span class="icon-container"><i class="fas fa-dice mr-2"></i></span>Aleatorio
+                            </a>
+                                                                                </div>
+                    </div>
+
+                                            <a href="/login" class="flex items-center justify-center xl:justify-start w-10 xl:w-auto xl:px-3 h-10 text-sm font-medium
+                                  text-white bg-purple-800 hover:bg-purple-900 border border-purple-700 rounded-lg transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-purple-600">
+                            <span class="icon-container"><i class="fas fa-sign-in-alt text-center"></i></span>
+                            <span class="hidden xl:inline ml-2">Iniciar sesión</span>
+                        </a>
+                                    </div>
+            </div>
+        </div>
+
+        <!-- Menú móvil overlay -->
+        <div id="mobileMenu" 
+             class="fixed inset-0 lg:hidden bg-black bg-opacity-50 z-50 hidden"
+             aria-label="Menú móvil">
+            <div id="menuPanel"
+                 class="fixed right-0 top-0 w-64 h-full bg-zinc-950 transform translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto">
+                <div class="p-5 space-y-4">
+                    <!-- Cabecera con botón cerrar -->
+                    <div class="flex items-center justify-between pb-2 border-b border-gray-700">
+                        <span class="text-sm font-medium text-gray-400">Menú</span>
+                        <button id="closeMenuButton"
+                                class="flex items-center justify-center w-10 h-10 min-h-[44px] min-w-[44px] text-gray-400 hover:text-white rounded-lg
+                                       transition-colors duration-200 hover:bg-gray-700
+                                       focus:outline-none focus:ring-2 focus:ring-gray-600"
+                                aria-label="Cerrar menú">
+                            <i class="fas fa-times text-lg"></i>
+                        </button>
+                    </div>
+                    <div class="flex flex-col space-y-2">
+                        <a href="/"
+                           class="flex items-center px-3.5 py-3 min-h-[52px] text-sm font-medium
+                                  border rounded-md transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  bg-gray-800 border-gray-600">
+                            <span class="icon-container"><i class="fas fa-home mr-2"></i></span>
+                            <span>Inicio</span>
+                        </a>
+                        <a href="/busqueda-avanzada"
+                           class="flex items-center px-3.5 py-3 min-h-[52px] text-sm font-medium
+                                  border rounded-md transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  border-gray-700 hover:bg-gray-800/50 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-search mr-2"></i></span>
+                            <span>Búsqueda</span>
+                        </a>
+                        <a href="/puntuaciones"
+                           class="flex items-center px-3.5 py-3 min-h-[52px] text-sm font-medium
+                                  border rounded-md transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  border-gray-700 hover:bg-gray-800/50 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-star mr-2"></i></span>
+                            <span>Puntuaciones</span>
+                        </a>
+                        <a href="/comentarios"
+                           class="flex items-center px-3.5 py-3 min-h-[52px] text-sm font-medium
+                                  border rounded-md transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  border-gray-700 hover:bg-gray-800/50 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-comments mr-2"></i></span>
+                            <span>Comentarios</span>
+                        </a>
+                        <a href="/categorias"
+                           class="flex items-center px-3.5 py-3 min-h-[52px] text-sm font-medium
+                                  border rounded-md transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  border-gray-700 hover:bg-gray-800/50 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-tags mr-2"></i></span>
+                            <span>Categorías</span>
+                        </a>
+                        <a href="/listas"
+                           class="flex items-center px-3.5 py-3 min-h-[52px] text-sm font-medium
+                                  border rounded-md transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  border-gray-700 hover:bg-gray-800/50 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-list-ul mr-2"></i></span>
+                            <span>Listas</span>
+                        </a>
+                        <a href="/suerte"
+                           class="flex items-center px-3.5 py-3 min-h-[52px] text-sm font-medium
+                                  border rounded-md transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  border-gray-700 hover:bg-gray-800/50 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-dice mr-2"></i></span>
+                            <span>Aleatorio</span>
+                        </a>
+                        <a href="/articulos"
+                           class="flex items-center px-3.5 py-3 min-h-[52px] text-sm font-medium
+                                  border rounded-md transition-all duration-200
+                                  focus:outline-none focus:ring-2 focus:ring-gray-600
+                                  border-gray-700 hover:bg-gray-800/50 hover:border-gray-600">
+                            <span class="icon-container"><i class="fas fa-newspaper mr-2"></i></span>
+                            <span>Artículos</span>
+                        </a>
+                                                                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Navigation Script (External) -->
+    <script src="/js/header-navigation.js?v=1.1.0" defer></script>
+<main>
+    <div class="container mx-auto px-2 sm:px-4 lg:px-8 2xl:px-16 mt-4">
+            
+    <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-4">
+                        <h1 class="text-lg sm:text-xl font-bold text-white"><span class="sm:hidden">Últimas</span><span class="hidden sm:inline">Últimas series</span></h1>
+                    </div>
+        <div class="flex items-center gap-2">
+                                                    <button id="open-continue-reading" class="px-4 py-2 sm:px-3 sm:py-1.5 text-sm font-medium text-white bg-zinc-800 hover:bg-zinc-700 rounded-lg sm:rounded-md transition-colors flex items-center gap-2" onclick="window.location.href='login.php'">
+                    <i class="fas fa-book-reader"></i>
+                    <span class="sm:hidden">Continuar</span>
+                    <span class="hidden sm:inline">Continuar leyendo</span>
+                </button>
+            
+            <!-- Botón +18 -->
+            <button onclick="window.location.href='/hide'" class="px-4 py-2 sm:px-3 sm:py-1.5 text-sm font-medium text-white bg-zinc-800 hover:bg-zinc-700 rounded-lg sm:rounded-md transition-colors flex items-center gap-2">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span class="sm:hidden">+18</span>
+                <span class="hidden sm:inline">+18</span>
+            </button>
+
+            <!-- Botón de Géneros -->
+            <button id="open-genres" class="h-9 sm:h-auto px-4 py-2 sm:px-3 sm:py-1.5 text-sm font-medium text-white bg-zinc-800 hover:bg-zinc-700 rounded-lg sm:rounded-md transition-colors flex items-center gap-2">
+                <i class="fas fa-tags"></i>
+                <span class="hidden sm:inline">Géneros</span>
+            </button>
+
+  
+            <!-- Drawer de Géneros -->
+            <div id="genres-drawer" class="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-zinc-900 transform translate-x-full transition-transform duration-300 ease-in-out z-50 border-l border-zinc-800/50 shadow-2xl overflow-y-auto">
+                <div class="sticky top-0 bg-zinc-900/95 backdrop-blur-sm border-b border-zinc-800/50 py-3 px-4 z-10">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fas fa-tags text-purple-500"></i>
+                            Géneros
+                        </h2>
+                        <button id="close-genres" class="flex items-center justify-center p-2 text-zinc-400 hover:text-white transition-colors">
+                            <i class="fas fa-times text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="genres-container" class="p-4">
+                    <!-- El contenido se cargará dinámicamente -->
+                    <div class="flex items-center justify-center h-32">
+                        <div class="animate-spin rounded-full h-8 w-8 border-2 border-purple-500 border-t-transparent"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overlay del drawer de géneros -->
+            <div id="genres-overlay" class="fixed inset-0 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 z-40"></div>
+            
+            <!-- Botones de Categorías para vista /hide -->
+                    </div>
+    </div>
+
+    
+    <div class="grid grid-cols-3 min-[576px]:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-8 2xl:grid-cols-8 gap-2 sm:gap-3">
+                <div class="comic-card group">
+            <a href="/series.php?id=ECKMWO1IOTQQ9" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">6</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=7C2B3EC227CF4B&page=1&context=cover"
+                         fetchpriority="high"                         loading="eager"
+                         alt="Un Contrato De Amor Con El Diablo"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Un Contrato De Amor Con El Diablo                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=X43XH0E9QFX8K" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">3</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=4DF37DC944ED45&page=1&context=cover"
+                                                  loading="eager"
+                         alt="Cuadrilatero Oxidado"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Cuadrilatero Oxidado                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=RSFHFJIIUO1UY" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">7</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=0DADE8827AB94D&page=1&context=cover"
+                                                  loading="eager"
+                         alt="Abre La Boca, Una Cuchara De Oro Esta Entrando"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Abre La Boca, Una Cuchara De Oro Esta Entrando                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=WUIOM71NCTVR7" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">7</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=B9BC496BEC424A&page=1&context=cover"
+                         loading="lazy"
+                         alt="La Cacería de Seo (Kowloon: Saroka)"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                La Cacería de Seo (Kowloon: Saroka)                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=WR1C1GNI9SMAC" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">8</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=7D1C35DFDB4945&page=1&context=cover"
+                         loading="lazy"
+                         alt="Noche de la novia (The Bridal Night)"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Noche de la novia (The Bridal Night)                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=FHTTCEV8WYUK3" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">6</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=5C59CB0B99EC43&page=1&context=cover"
+                         loading="lazy"
+                         alt="Por favor, dispárame (Please Shoot Me)"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Por favor, dispárame (Please Shoot Me)                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=X9HXWHX2IO67E" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">1</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=060DFE9A289B40&page=1&context=cover"
+                         loading="lazy"
+                         alt="Fragtime"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Fragtime                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=1E0HEYRO9XPFV" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">9</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=BEFB0A0EB33840&page=1&context=cover"
+                         loading="lazy"
+                         alt="Super Lovers"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Super Lovers                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-orange-500/80 text-white">
+                                        ACTIVO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=0D0HEVW1ZTGF4" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">1</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=C3D9CD40CD244F&page=1&context=cover"
+                         loading="lazy"
+                         alt="Usogui: El Árbitro de las Apuestas"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Usogui: El Árbitro de las Apuestas                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=SBPWD5EQ9125W" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">1</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=0C4691A38FBC47&page=1&context=cover"
+                         loading="lazy"
+                         alt="¡Vamos al karaoke!"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                ¡Vamos al karaoke!                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=4VJT8QLWL2G9D" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">3</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=C69132B49A514C&page=1&context=cover"
+                         loading="lazy"
+                         alt="Minegishi quiere alimentar a Ootsu"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Minegishi quiere alimentar a Ootsu                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=L9VLM1EHSGZ2R" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">2</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=B41D98FBCE9043&page=1&context=cover"
+                         loading="lazy"
+                         alt="La novia de Adarshan"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                La novia de Adarshan                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=3IWZJAU8SJ74P" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">1</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=7B13E8BB14CC48&page=1&context=cover"
+                         loading="lazy"
+                         alt="Raou me hace caso"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Raou me hace caso                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=QU30PEUEZQQDC" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">3</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=FDADB0E9DE7B48&page=1&context=cover"
+                         loading="lazy"
+                         alt="Tomie"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Tomie                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=J9FQ0UEPX57CD" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">5</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=7BFB323A28474B&page=1&context=cover"
+                         loading="lazy"
+                         alt="Mi novia plana y su novio guapo"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Mi novia plana y su novio guapo                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=3TQ9R9TORF745" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">10</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=BF6268A41A0040&page=1&context=cover"
+                         loading="lazy"
+                         alt="Full Metal Panic! Sigma!"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Full Metal Panic! Sigma!                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=6P63N77XB30ZF" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">8</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=2BF3E19DA3A947&page=1&context=cover"
+                         loading="lazy"
+                         alt="Mars"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Mars                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=L23JQ2LDCPK6Z" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">4</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=54ABC270F9F54E&page=1&context=cover"
+                         loading="lazy"
+                         alt="Iris (Friends in the Immediate Vicinity)"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Iris (Friends in the Immediate Vicinity)                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=3XGRMMG21URFN" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">15</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=9486A9F3AA4649&page=1&context=cover"
+                         loading="lazy"
+                         alt="Kakegurui Twin"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Kakegurui Twin                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=88KT268SWWV3T" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">6</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=45AF0F91EC1446&page=1&context=cover"
+                         loading="lazy"
+                         alt="Valhallian: El caballero de hierro negro"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Valhallian: El caballero de hierro negro                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=B068FWZ1ZMVZU" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">5</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=49E9291069044B&page=1&context=cover"
+                         loading="lazy"
+                         alt="Simon Sues"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Simon Sues                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=HNEHN56KUJSN2" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">12</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=BB561048945648&page=1&context=cover"
+                         loading="lazy"
+                         alt="La basura en su lugar"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                La basura en su lugar                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=MT0WS8HBOI5KO" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">6</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=989F073F3C0B49&page=1&context=cover"
+                         loading="lazy"
+                         alt="Ganzi Monster"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Ganzi Monster                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=7XYZ5YTSDYMN9" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">7</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=05988A42257C48&page=1&context=cover"
+                         loading="lazy"
+                         alt="Jujutsu Kaisen: Módulo"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Jujutsu Kaisen: Módulo                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=5M6QWEBYJ1SHG" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">8</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=1A0D28DB69BA49&page=1&context=cover"
+                         loading="lazy"
+                         alt="El complejo de la fealdad"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                El complejo de la fealdad                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=VWYB3PT9ZEEDZ" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">8</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=DCEFD7E7C0734A&page=1&context=cover"
+                         loading="lazy"
+                         alt="Descaro (Dirty Deeds)"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Descaro (Dirty Deeds)                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=G8VRGEEMUEGPR" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">7</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=B15B06F9C0644B&page=1&context=cover"
+                         loading="lazy"
+                         alt="Odalisca (The Hidden Muse)"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Odalisca (The Hidden Muse)                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=HISRGKNVYDOP2" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">10</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=DCC740D208134F&page=1&context=cover"
+                         loading="lazy"
+                         alt="Apartamento de Monstruos (Monster Apartment)"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Apartamento de Monstruos (Monster Apartment)                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=PPC56T0WFYDCE" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">6</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=550524B6692049&page=1&context=cover"
+                         loading="lazy"
+                         alt="Apaga las Luces (Kill The Lights)"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Apaga las Luces (Kill The Lights)                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=UNHI9B8RRWOSK" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">2</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=2DD4D7C7C98147&page=1&context=cover"
+                         loading="lazy"
+                         alt="Yuki y la Escritora"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Yuki y la Escritora                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=3G507Y74VTBDN" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">1</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=53D3396A55EE40&page=1&context=cover"
+                         loading="lazy"
+                         alt="El Bebé del Maestro es Sospechoso"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                El Bebé del Maestro es Sospechoso                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=DT116RG5YJHF5" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">9</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=5FF9B5A4601C4C&page=1&context=cover"
+                         loading="lazy"
+                         alt="¿Ser popular es malo?"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                ¿Ser popular es malo?                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=HCTUVTDA63DJL" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">2</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=D56BF0AD9E0D4E&page=1&context=cover"
+                         loading="lazy"
+                         alt="Atrapada en el tiempo"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-fuchsia-900/100 via-fuchsia-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Atrapada en el tiempo                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANHWA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=H86NEQ87K3JE1" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">12</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=9BA5CEBBE5E043&page=1&context=cover"
+                         loading="lazy"
+                         alt="El Duque de la Muerte y su Doncella Negra"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                El Duque de la Muerte y su Doncella Negra                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=GMP8165B2W273" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">1</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=994F9046B3D444&page=1&context=cover"
+                         loading="lazy"
+                         alt="Horror color carne"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                Horror color carne                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <div class="comic-card group">
+            <a href="/series.php?id=3BYGWJ65BA0EL" class="block relative">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-800">
+                    <!-- Contador de capítulos -->
+                    <div class="absolute top-0 left-0 z-20 bg-black/75 h-[18px] px-[4px] flex items-center justify-center">
+                         <span class="text-white text-[11px] min-[576px]:text-[11px] md:text-[11px] lg:text-[12px] xl:text-[14px] 2xl:text-[14px] font-medium leading-none">1</span>
+                    </div>
+                    
+                    <div class="placeholder"></div>
+                                        <img src="/image-proxy-v2.php?chapter=6263080924C347&page=1&context=cover"
+                         loading="lazy"
+                         alt="El caminante (The Walking Man)"
+                         class="w-full h-full object-cover relative z-10"
+                         onerror="this.onerror=null;this.src='/img/no-cover.svg'">
+                                             
+                    <!-- Overlay con información -->
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t
+                                                  from-blue-900/100 via-blue-900/26
+                                              to-transparent h-[26%] opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="absolute bottom-0 left-0 right-0 p-[0.225rem] min-[576px]:p-1 text-center">
+                            <h3 class="!leading-none text-[13px] min-[576px]:text-sm xl:text-[13px] 2xl:text-[13px] font-semibold text-white line-clamp-2 mb-[0.7px] min-[576px]:mb-1 drop-shadow-[0_0_4px_rgba(0,0,0,4)]">
+                                El caminante (The Walking Man)                            </h3>
+                            <div class="flex flex-wrap gap-1 justify-center">
+                                                                    <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-blue-600/80 text-white">
+                                        MANGA                                    </span>
+                                                                                                                                        <span class="hidden lg:inline-block text-[10px] xl:text-[9px] 2xl:text-[9px] px-1.5 py-0.5 bg-green-600/80 text-white">
+                                        FINALIZADO                                    </span>
+                                                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+            </div>  <!-- Aquí termina el grid -->
+    
+    <!-- Paginación -->
+            <div class="flex justify-center items-center gap-2 my-8">
+                        
+                            <a href="?page=1" 
+                   class="px-4 py-2 text-base font-medium text-white bg-purple-800 hover:bg-purple-900 rounded-md transition-colors">
+                    1                </a>
+                            <a href="?page=2" 
+                   class="px-4 py-2 text-base font-medium text-white bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">
+                    2                </a>
+                            <a href="?page=3" 
+                   class="px-4 py-2 text-base font-medium text-white bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">
+                    3                </a>
+                            <a href="?page=4" 
+                   class="px-4 py-2 text-base font-medium text-white bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">
+                    4                </a>
+                            <a href="?page=5" 
+                   class="px-4 py-2 text-base font-medium text-white bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">
+                    5                </a>
+                        
+                            <a href="?page=2" 
+                   class="hidden sm:flex px-4 py-2 text-base font-medium text-white bg-gray-700 rounded-md hover:bg-gray-600 transition-colors items-center">
+                    Siguiente <i class="fas fa-chevron-right ml-1"></i>
+                </a>
+                    </div>
+                <div class="border-t border-zinc-800/50 my-6"></div>
+
+    <style>
+    .seo-card-bg-idx{position:absolute;bottom:0;right:0;width:50%;height:80%;background-size:cover;background-position:center;opacity:.25;-webkit-mask-image:linear-gradient(to top left,rgba(0,0,0,1) 0%,transparent 60%);mask-image:linear-gradient(to top left,rgba(0,0,0,1) 0%,transparent 60%);pointer-events:none;border-radius:0 0 .5rem 0}
+    #latestArticlesGrid{display:flex;flex-direction:column;gap:0.5rem}
+    @media(min-width:768px) and (max-width:1023px){
+        #latestArticlesGrid{flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+        #latestArticlesGrid::-webkit-scrollbar{display:none}
+        #latestArticlesGrid>a{flex:0 0 48%;scroll-snap-align:start}
+    }
+    @media(min-width:1024px){
+        #latestArticlesGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
+    </style>
+
+    <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg sm:text-xl font-bold text-white">Últimas publicaciones</h2>
+        <a href="/articulos" class="px-4 py-2 sm:px-3 sm:py-1.5 text-sm font-medium text-white bg-zinc-800 hover:bg-zinc-700 rounded-lg sm:rounded-md transition-colors flex items-center gap-2">
+            <i class="fas fa-newspaper"></i>
+            <span>Ver todos</span>
+        </a>
+    </div>
+
+    <div id="latestArticlesGrid">
+                <a href="/articulo/mejores-manga-de-deportes" class="bg-zinc-950 rounded-lg p-4 border border-zinc-800 hover:border-zinc-600 overflow-hidden no-underline transition-colors relative flex flex-col" style="min-height:160px">
+                        <div class="seo-card-bg-idx" style="background-image:url('/image-proxy-v2.php?chapter=0KM5Q2GVYDWQ0&amp;page=1&amp;context=cover')"></div>
+                        <div class="flex gap-3 flex-1 relative z-10">
+                                <div class="flex flex-shrink-0 items-center gap-1">
+                    <img src="/image-proxy-v2.php?chapter=859E60A9EE6947&amp;page=1&amp;context=cover" class="object-cover bg-zinc-800 rounded-md" style="width:46px;height:69px" alt="" loading="lazy">
+                    <img src="/image-proxy-v2.php?chapter=E3E6B64D56C54A&amp;page=1&amp;context=cover" class="object-cover bg-zinc-800 rounded opacity-70" style="width:42px;height:63px" alt="" loading="lazy">
+                </div>
+                                <div class="flex-1 min-w-0">
+                    <h3 class="text-white font-semibold text-base leading-tight line-clamp-2">Los Mejores Manga de Deportes: De Blue Lock a Slam Dunk</h3>
+                                        <p class="text-gray-400 text-sm line-clamp-2 mt-1">Los mejores manga de deportes: de Blue Lock a Slam Dunk. Fútbol, baloncesto, boxeo y más en las historias más intensas del género. 9 series imprescindibles.</p>
+                                    </div>
+            </div>
+                        <div class="flex items-center gap-4 text-gray-500 text-base mt-auto pt-3 border-t border-zinc-800 flex-wrap relative z-10">
+                <span class="flex items-center gap-2">
+                    <img src="uploads/avatars/avatar_354_679790724bcf7.webp" class="w-6 h-6 rounded-md object-cover" alt="" loading="lazy">
+                    <span class="text-gray-300 font-medium">CuentaCuentos</span>
+                </span>
+                <span class="flex items-center gap-1.5"><i class="fas fa-heart text-red-400/50"></i>0</span>
+                <span class="flex items-center gap-1.5"><i class="fas fa-comment text-zinc-600"></i>0</span>
+                                <span class="flex items-center gap-1.5"><i class="fas fa-tv text-zinc-600"></i>8</span>
+                            </div>
+        </a>
+                <a href="/articulo/los-20-mejores-manhwa-que-debes-leer" class="bg-zinc-950 rounded-lg p-4 border border-zinc-800 hover:border-zinc-600 overflow-hidden no-underline transition-colors relative flex flex-col" style="min-height:160px">
+                        <div class="seo-card-bg-idx" style="background-image:url('/image-proxy-v2.php?chapter=FABE091039294C&amp;page=1&amp;context=cover')"></div>
+                        <div class="flex gap-3 flex-1 relative z-10">
+                                <div class="flex flex-shrink-0 items-center gap-1">
+                    <img src="/image-proxy-v2.php?chapter=0KF1317FQY6QW&amp;page=1&amp;context=cover" class="object-cover bg-zinc-800 rounded-md" style="width:46px;height:69px" alt="" loading="lazy">
+                    <img src="/image-proxy-v2.php?chapter=1909B9A016DF44&amp;page=1&amp;context=cover" class="object-cover bg-zinc-800 rounded opacity-70" style="width:42px;height:63px" alt="" loading="lazy">
+                </div>
+                                <div class="flex-1 min-w-0">
+                    <h3 class="text-white font-semibold text-base leading-tight line-clamp-2">Los 20 Mejores Manhwa que Debes Leer</h3>
+                                        <p class="text-gray-400 text-sm line-clamp-2 mt-1">Los 20 mejores manhwa que debes leer: acción, romance, terror y más. Desde Solo Leveling hasta Sweet Home, la guía definitiva de webtoons coreanos en español.</p>
+                                    </div>
+            </div>
+                        <div class="flex items-center gap-4 text-gray-500 text-base mt-auto pt-3 border-t border-zinc-800 flex-wrap relative z-10">
+                <span class="flex items-center gap-2">
+                    <img src="uploads/avatars/avatar_354_679790724bcf7.webp" class="w-6 h-6 rounded-md object-cover" alt="" loading="lazy">
+                    <span class="text-gray-300 font-medium">CuentaCuentos</span>
+                </span>
+                <span class="flex items-center gap-1.5"><i class="fas fa-heart text-red-400/50"></i>0</span>
+                <span class="flex items-center gap-1.5"><i class="fas fa-comment text-zinc-600"></i>0</span>
+                                <span class="flex items-center gap-1.5"><i class="fas fa-tv text-zinc-600"></i>5</span>
+                            </div>
+        </a>
+                <a href="/articulo/recomiendenme-bl-vale-mangas-y-manhwas-pa-la-vida" class="bg-zinc-950 rounded-lg p-4 border border-zinc-800 hover:border-zinc-600 overflow-hidden no-underline transition-colors relative flex flex-col" style="min-height:160px">
+                        <div class="flex gap-3 flex-1 relative z-10">
+                                <div class="flex-1 min-w-0">
+                    <h3 class="text-white font-semibold text-base leading-tight line-clamp-2">¡Recomiéndenme BL, vale! Mangas y manhwas pa’ la vida</h3>
+                                        <p class="text-gray-400 text-sm line-clamp-2 mt-1">Soy fan del BL y ando con las ganas de descubrir más historias que me hagan emocionar. Por eso les digo directo: recomiéndenme mangas o manhwas, lo que sea, ...</p>
+                                    </div>
+            </div>
+                        <div class="flex items-center gap-4 text-gray-500 text-base mt-auto pt-3 border-t border-zinc-800 flex-wrap relative z-10">
+                <span class="flex items-center gap-2">
+                    <img src="/uploads/avatars/2026/03/avatar_47891_69b46b68ce51e.webp" class="w-6 h-6 rounded-md object-cover" alt="" loading="lazy">
+                    <span class="text-gray-300 font-medium">Luma4</span>
+                </span>
+                <span class="flex items-center gap-1.5"><i class="fas fa-heart text-red-400/50"></i>0</span>
+                <span class="flex items-center gap-1.5"><i class="fas fa-comment text-zinc-600"></i>0</span>
+                            </div>
+        </a>
+            </div>
+
+    
+    <div class="border-t border-zinc-800/50 my-6"></div>
+
+
+    <!-- Secciones de Series más leídas y Top Lectores -->
+    <div>
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- Series de más interés (70% en desktop, 100% en móvil/tablet) -->
+            <div class="w-full lg:w-[70%]" data-section="top-series">
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <!-- Desplegable móvil -->
+                        <select id="topSeriesSelect" class="sm:hidden bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            <option value="visits" selected>Más visitas</option>
+                            <option value="rating">Más puntos</option>
+                            <option value="comments">Más comentados</option>
+                        </select>
+                        <!-- Toggle buttons tablet/desktop -->
+                        <div id="topSeriesToggle" class="hidden sm:flex bg-zinc-800 rounded-md p-0.5 border border-zinc-700">
+                            <button type="button" data-type="visits" class="px-3 py-1.5 text-sm font-medium rounded-md transition-colors bg-purple-600 text-white">
+                                Visitas
+                            </button>
+                            <button type="button" data-type="rating" class="px-3 py-1.5 text-sm font-medium rounded-md transition-colors text-zinc-400 hover:text-white">
+                                Puntos
+                            </button>
+                            <button type="button" data-type="comments" class="px-3 py-1.5 text-sm font-medium rounded-md transition-colors text-zinc-400 hover:text-white">
+                                Comentados
+                            </button>
+                        </div>
+                        <!-- Selector de período -->
+                        <div class="relative">
+                            <select id="periodSelector" class="bg-zinc-800 text-white border border-zinc-700 rounded-lg sm:rounded-md px-4 py-2 sm:px-3 sm:py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                <option value="30">Últimos 30 días</option>
+                                <option value="90">Últimos 90 días</option>
+                                <option value="365">Último año</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="top-series-container" class="content-area animate-pulse">
+                        <div class="grid grid-cols-3 [&>*]:min-[320px]:col-span-1 min-[576px]:grid-cols-4 md:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-2 sm:gap-3">
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                            <div class="bg-zinc-800 rounded-md aspect-[2/3]"></div>
+                                                    </div>
+                    </div>
+                    <!-- Botón "Ver ranking" solo en móvil (1 columna) -->
+                    <div class="mt-8 text-center lg:hidden">
+                        <a href="/top" class="inline-block bg-purple-800 hover:bg-purple-900 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 ease-in-out">
+                            Ver ranking completo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Línea divisoria vertical en desktop, horizontal en móvil -->
+            <div class="hidden lg:block w-px bg-zinc-800"></div>
+            <div class="lg:hidden h-px bg-zinc-800"></div>
+
+            <!-- Top Lectores (30% en desktop, 100% en móvil/tablet) -->
+            <div class="w-full lg:w-[30%]" data-section="top-readers">
+                <div class="mb-6">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                            <i class="fas fa-book-reader text-purple-500"></i>
+                            Top Lectores
+                        </h2>
+                        <select id="readersPeriodSelector" class="bg-zinc-800 text-white border border-zinc-700 rounded-lg sm:rounded-md px-4 py-2 sm:px-3 sm:py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            <option value="30">Últimos 30 días</option>
+                            <option value="90">Últimos 90 días</option>
+                            <option value="365">Último año</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="top-readers-container" class="content-area space-y-2 animate-pulse">
+                                            <div class="h-16 bg-zinc-800 rounded-lg"></div>
+                                            <div class="h-16 bg-zinc-800 rounded-lg"></div>
+                                            <div class="h-16 bg-zinc-800 rounded-lg"></div>
+                                            <div class="h-16 bg-zinc-800 rounded-lg"></div>
+                                            <div class="h-16 bg-zinc-800 rounded-lg"></div>
+                                            <div class="h-16 bg-zinc-800 rounded-lg"></div>
+                                            <div class="h-16 bg-zinc-800 rounded-lg"></div>
+                                            <div class="h-16 bg-zinc-800 rounded-lg"></div>
+                                            <div class="h-16 bg-zinc-800 rounded-lg"></div>
+                                            <div class="h-16 bg-zinc-800 rounded-lg"></div>
+                                    </div>
+
+            </div>
+        </div>
+        <!-- Botón "Ver todos los rankings" solo en desktop -->
+        <div class="mt-8 text-center hidden lg:block">
+            <a href="/top" class="inline-block bg-purple-800 hover:bg-purple-900 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 ease-in-out">
+                Ver ranking completo
+            </a>
+        </div>
+    </div>
+
+        
+    </div> <!-- Cierra container mx-auto -->
+</main> <!-- Cierra main -->
+
+<!-- Scripts con defer en orden correcto -->
+<script src="/js/search.js?v=1.1.0" defer></script>
+<script src="/js/recent_chapters_index.js?v=1.1.0" defer></script>
+    
+<script src="/js/continue_reading_drawer.js?v=1.1.0" defer></script>
+    
+<script src="/js/top_sections.js?v=1.1.0" defer></script>
+<script src="/js/main.min.js?v=1.1.0" defer></script>
+    
+<script src="/js/genres_drawer.js?v=1.1.0" defer></script>
+
+<!-- Script para toggle de descripción de categoría/género/tag -->
+<script>
+    function toggleCategoryDescription() {
+        const content = document.getElementById('category-description-content');
+        const chevron = document.getElementById('category-description-chevron');
+
+        if (content && chevron) {
+            content.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
+        }
+    }
+</script>
+
+<!-- Función para manejar URLs con apóstrofes -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Manejar botones de género con data-url
+        document.querySelectorAll('[data-genre-url]').forEach(function(button) {
+            button.addEventListener('click', function() {
+                window.location.href = this.getAttribute('data-genre-url');
+            });
+        });
+    });
+</script>
+
+<!-- Footer -->
+<footer class="bg-zinc-900 text-gray-300 pt-12 pb-8 mt-8 border-t border-gray-800">
+    <div class="container mx-auto px-2 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Columna de Información -->
+            <div class="md:border-r border-gray-800 pr-8">
+                <h5 class="text-white text-lg font-semibold mb-4">Información</h5>
+                <ul class="space-y-2">
+                    <li><a href="/faq" class="flex items-center py-2 px-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 transition-all duration-200"><i class="fas fa-question-circle w-4 mr-3 text-purple-400"></i><span class="text-sm">Preguntas frecuentes</span></a></li>
+                    <li><a href="/instalar-app.php" class="flex items-center py-2 px-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 transition-all duration-200"><i class="fas fa-mobile-alt w-4 mr-3 text-purple-400"></i><span class="text-sm">Tutorial app</span></a></li>
+                    <li><a href="/comunidad" class="flex items-center py-2 px-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 transition-all duration-200"><i class="fas fa-users w-4 mr-3 text-purple-400"></i><span class="text-sm">Comunidad</span></a></li>
+                    <li><a href="/contacto" class="flex items-center py-2 px-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 transition-all duration-200"><i class="fas fa-envelope w-4 mr-3 text-purple-400"></i><span class="text-sm">Contacto</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Columna de Enlaces -->
+            <div class="md:border-r border-gray-800 pr-8">
+                <h5 class="text-white text-lg font-semibold mb-4">Enlaces</h5>
+                <ul class="space-y-2">
+                     <!-- Botón de Instalación PWA -->
+                    <li id="installPwaContainer" class="hidden">
+                        <button id="installPwaButton" class="group flex items-center w-full py-2 px-3 rounded-lg bg-green-800 hover:bg-green-700 text-white font-medium transition-all duration-200 ease-in-out shadow-sm hover:shadow-md border border-green-700 hover:border-green-600 text-left">
+                            <i class="fas fa-mobile-alt text-lg mr-3 text-green-300"></i>
+                            <div class="flex flex-col text-left">
+                                <span class="text-sm">Instalar la app Yupmanga</span>
+                                <span class="text-xs text-gray-200 opacity-80">Disponible para instalar</span>
+                            </div>
+                        </button>
+                    </li>
+                    <li><a href="https://t.me/+BU6o-vr3ytY5MzM0" target="_blank" rel="noopener noreferrer" class="group flex items-center w-full py-2 px-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white font-medium transition-all duration-200 ease-in-out shadow-sm hover:shadow-md border border-zinc-700 hover:border-zinc-600">
+                        <i class="fab fa-telegram text-lg mr-3 text-blue-400"></i>
+                        <div class="flex flex-col">
+                            <span class="text-sm">Nuestro Telegram</span>
+                            <span class="text-xs text-gray-400 opacity-80">Únete a la comunidad</span>
+                        </div>
+                    </a></li>
+                </ul>
+            </div>
+
+
+            <!-- Columna del Logo y Disclaimer -->
+            <div class="flex flex-col">
+                <div class="mb-4">
+                    <img src="/img/logo3.png" alt="Logo" width="167" height="32" class="h-8">
+                </div>
+                <p class="text-[0.8125rem] text-gray-400">
+                    Yupmanga es un lugar para amantes del manga en español, donde puedes disfrutar, compartir y descubrir tus historias favoritas. Aquí <b>no te molestará una multitud de páginas de publicidad</b> mientras lees, la comodidad de lectura es lo que diferencia a Yupmanga del resto.
+                </p>
+            </div>
+        </div>
+
+        <!-- Enlaces para SEO y Sitemaps -->
+        <div class="mt-8 pt-8 border-t border-gray-800 text-center">
+            <div class="text-xs text-gray-500">
+                <a href="/sitemap.xml" class="hover:text-gray-400 transition-colors">Sitemap</a>
+                <span class="mx-2">|</span>
+                <a href="/robots.txt" class="hover:text-gray-400 transition-colors">Robots.txt</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón Scroll to Top -->
+    <button id="scrollToTop" aria-label="Volver arriba" class="fixed bottom-8 right-8 bg-zinc-900 hover:bg-zinc-800 text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 opacity-0 invisible">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Función para scroll to top con animación suave
+        document.getElementById('scrollToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Mostrar/ocultar botón basado en el scroll
+        window.addEventListener('scroll', function() {
+            const scrollButton = document.getElementById('scrollToTop');
+            if (window.scrollY > 300) {
+                scrollButton.classList.remove('opacity-0', 'invisible');
+                scrollButton.classList.add('opacity-100');
+            } else {
+                scrollButton.classList.add('opacity-0', 'invisible');
+                scrollButton.classList.remove('opacity-100');
+            }
+        });
+    </script>
+    <!-- Script para lógica del botón de instalación PWA -->
+        <script src="/js/pwa-install-button.js?v=1.1.0" defer></script>
+    </footer>
+
+    <script src="/js/banner_handler.js?v=1.1.0" defer></script>
+    <script src="/js/update-notifier.js?v=1.1.0" defer></script>
+
+<!-- Browser Verification -->
+<div id="ybv-container" style="position:fixed;bottom:10px;right:10px;z-index:9999;"></div>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=__ybvInit&render=explicit" async defer></script>
+<script>
+function __ybvInit(){
+    try {
+        turnstile.render('#ybv-container',{
+            sitekey:'0x4AAAAAABwh4DAKW2ePGmHe',
+            callback:function(token){
+                fetch('/ajax/verify_browser.php',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/x-www-form-urlencoded','X-Requested-With':'XMLHttpRequest'},
+                    body:'token='+encodeURIComponent(token),
+                    credentials:'same-origin'
+                }).then(function(r){return r.json()}).then(function(d){
+                    if(d.success){
+                        document.dispatchEvent(new CustomEvent('ybv:verified'));
+                    }
+                }).catch(function(){});
+            },
+            'error-callback':function(){
+                setTimeout(function(){try{__ybvInit()}catch(e){}},5000);
+            },
+            appearance:'interaction-only',
+            retry:'auto',
+            'refresh-expired':'auto'
+        });
+    } catch(e) {
+        setTimeout(function(){try{__ybvInit()}catch(e){}},3000);
+    }
+}
+</script>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e20f51f0e9eadae',t:'MTc3NDQ3MzYwNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"64e4ce126e124606967415dd247e04c5","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

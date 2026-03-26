@@ -17,6 +17,12 @@ export default function TabLayout() {
           backgroundColor: Theme.backgroundSecondary,
           borderTopColor: Theme.border,
           borderTopWidth: 1,
+          height: 60,
+          paddingBottom: 8,
+          paddingTop: 8,
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
         },
       }}>
       <Tabs.Screen

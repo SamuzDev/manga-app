@@ -25,6 +25,7 @@ export interface YupVolume {
   coverUrl: string;
   pages: number;
   publishedDate: string;
+  readerUrl?: string;
 }
 
 export interface YupVolumePage {

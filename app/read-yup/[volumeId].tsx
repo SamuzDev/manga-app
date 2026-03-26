@@ -1,25 +1,45 @@
 /**
- * YupManga Reader Screen - Usa WebView para extraer y mostrar páginas
+ * YupManga Reader Screen - Lector nativo usando API directa
  */
 
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
-  ActivityIndicator,
-  SafeAreaView,
-  ScrollView,
+  FlatList,
   StatusBar,
+  Image,
 } from 'react-native';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
-import { WebView } from 'react-native-webview';
 import { Image as ExpoImage } from 'expo-image';
 import { Theme, FontSizes, Spacing } from '@/constants/theme';
+import { Loading } from '@/components/ui/Loading';
+import { Button } from '@/components/ui/Button';
+import { yupMangaAPI } from '@/services/api/yupmanga';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+
+function ImageWithSize({ uri, priority }: { uri: string; priority: boolean }) {
+  const [dimensions, setDimensions] = useState<{ width: number; height: number } | null>(null);
+
+  return (
+    <Image
+      source={{ uri }}
+      style={[
+        styles.pageImage,
+        dimensions ? { width: SCREEN_WIDTH, height: (SCREEN_WIDTH / dimensions.width) * dimensions.height } : {}
+      ]}
+      resizeMode="contain"
+      onLoad={(e) => {
+        const { width, height } = e.nativeEvent.source;
+        setDimensions({ width, height });
+      }}
+    />
+  );
+}
 
 interface PageData {
   uri: string;
@@ -29,91 +49,103 @@ interface PageData {
 export default function YupReaderScreen() {
   const { volumeId } = useLocalSearchParams<{ volumeId: string }>();
   const router = useRouter();
-  const webViewRef = useRef<WebView>(null);
-  
+  const flatListRef = useRef<FlatList>(null);
+  const chapterIdRef = useRef<string>('');
+  const currentTokenRef = useRef<string>('');
+  const hasLoadedAllRef = useRef(false);
+
   const [pages, setPages] = useState<PageData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [showNativeReader, setShowNativeReader] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [showControls, setShowControls] = useState(true);
-  const [showSettings, setShowSettings] = useState(false);
 
-  const readerUrl = `https://www.yupmanga.com/reader_v2.php?chapter=${volumeId}&page=1`;
-
-  const extractPagesJS = `
-    (function() {
-      // Extraer todas las URLs de las imágenes del reader
-      const images = document.querySelectorAll('img.page-image');
-      const pages = [];
-      images.forEach((img, index) => {
-        if (img.src) {
-          pages.push(img.src);
-        }
-      });
-      
-      // Obtener el título del capítulo
-      const chapterTitle = document.querySelector('.chapter-title')?.textContent || 'Tomo';
-      
-      // Responder con los datos
-      window.ReactNativeWebView.postMessage(JSON.stringify({
-        type: 'PAGES_EXTRACTED',
-        pages: pages,
-        chapterTitle: chapterTitle
-      }));
-    })();
-    true;
-  `;
-
-  const hideUIJS = `
-    (function() {
-      // Ocultar navegación para lectura inmersiva
-      const header = document.querySelector('.reader-header');
-      if (header) header.style.display = 'none';
-      
-      // Ocultar footer si existe
-      const footer = document.querySelector('footer');
-      if (footer) footer.style.display = 'none';
-      
-      // Poner fondo negro
-      document.body.style.backgroundColor = '#000';
-      document.body.style.margin = '0';
-      document.body.style.padding = '0';
-      
-      // Ajustar el contenedor
-      const container = document.querySelector('.reader-container');
-      if (container) {
-        container.style.padding = '0';
-        container.style.margin = '0';
-        container.style.maxWidth = '100%';
-      }
-    })();
-    true;
-  `;
-
-  const handleMessage = useCallback((event: any) => {
+  const pagesLengthRef = useRef(0);
+  
+  const loadMorePages = useCallback(async () => {
+    if (isLoadingMore || !chapterIdRef.current) return;
+    
+    const currentLength = pagesLengthRef.current;
+    
     try {
-      const data = JSON.parse(event.nativeEvent.data);
+      setIsLoadingMore(true);
+      console.log('Loading more pages... current:', currentLength);
+      const result = await yupMangaAPI.getVolumePages(chapterIdRef.current);
+      console.log('More pages result:', result.pages.length);
       
-      if (data.type === 'PAGES_EXTRACTED' && data.pages.length > 0) {
-        console.log('Pages extracted:', data.pages.length);
-        setPages(data.pages.map((uri: string, index: number) => ({
+      if (result.pages.length > currentLength) {
+        // Añadir las páginas que faltan
+        const newPages = result.pages.slice(currentLength).map((uri, index) => ({
           uri,
-          index,
-        })));
-        setShowNativeReader(true);
-        setIsLoading(false);
+          index: currentLength + index,
+        }));
+        setPages(prev => [...prev, ...newPages]);
+        pagesLengthRef.current = result.pages.length;
+        console.log('Added', newPages.length, 'new pages. Total:', result.pages.length);
+      } else if (result.pages.length > 0 && currentLength === 0) {
+        setPages(result.pages.map((uri, index) => ({ uri, index })));
+        pagesLengthRef.current = result.pages.length;
+        console.log('Set to', result.pages.length, 'pages');
       }
-    } catch (error) {
-      console.error('Error parsing message:', error);
+    } catch (err) {
+      console.error('Error loading more pages:', err);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  }, [isLoadingMore]);
+
+  const lastScrollY = useRef(0);
+  
+  const handleScroll = useCallback((event: any) => {
+    const { contentOffset } = event.nativeEvent;
+    
+    // Calcular página actual basada en posición del scroll
+    const pageHeight = SCREEN_HEIGHT;
+    const page = Math.floor(contentOffset.y / pageHeight);
+    if (page >= 0 && page < pages.length) {
+      setCurrentPage(page);
+    }
+  }, [pages.length]);
+
+  const loadPages = useCallback(async (chapterId?: string | any) => {
+    if (chapterId && typeof chapterId !== 'string') {
+      chapterId = undefined;
+    }
+    const targetId = chapterId || chapterIdRef.current;
+    if (!targetId) return;
+    
+    try {
+      setIsLoading(true);
+      setError(null);
+      console.log('Loading pages for chapter:', targetId);
+      const result = await yupMangaAPI.getVolumePages(targetId);
+      console.log('Volume pages result:', result.pages.length, 'pages, token:', result.token ? 'yes' : 'no');
+
+      if (result.pages.length === 0) {
+        setError('No se encontraron páginas para este tomo');
+        return;
+      }
+
+      currentTokenRef.current = result.token;
+      pagesLengthRef.current = result.pages.length;
+      setPages(result.pages.map((uri, index) => ({ uri, index })));
+    } catch (err) {
+      console.error('Error loading pages:', err);
+      setError('Error al cargar las páginas');
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
-  const handleWebViewLoad = useCallback(() => {
-    // Después de cargar, extraer las páginas
-    setTimeout(() => {
-      webViewRef.current?.injectJavaScript(extractPagesJS);
-    }, 1000);
-  }, []);
+  useEffect(() => {
+    if (volumeId) {
+      const chapterId = decodeURIComponent(volumeId);
+      chapterIdRef.current = chapterId;
+      hasLoadedAllRef.current = false;
+      loadPages(chapterId);
+    }
+  }, [volumeId, loadPages]);
 
   const toggleControls = useCallback(() => {
     setShowControls((prev) => !prev);
@@ -131,165 +163,106 @@ export default function YupReaderScreen() {
     }
   }, [currentPage, pages.length]);
 
-  if (showNativeReader && pages.length > 0) {
+  if (isLoading) {
+    return <Loading fullScreen message="Cargando páginas..." />;
+  }
+
+  if (error || pages.length === 0) {
     return (
-      <View style={styles.container}>
-        <StatusBar hidden={!showControls} />
-        
+      <View style={styles.centerContainer}>
         <Stack.Screen options={{ headerShown: false }} />
-        
-        {showControls && (
-          <SafeAreaView style={styles.topBarContainer}>
-            <View style={styles.topBar}>
-              <TouchableOpacity
-                style={styles.headerButton}
-                onPress={() => router.back()}
-              >
-                <Text style={styles.headerButtonText}>←</Text>
-              </TouchableOpacity>
-              <View style={styles.titleContainer}>
-                <Text style={styles.chapterTitle} numberOfLines={1}>
-                  Tomo
-                </Text>
-                <Text style={styles.pageIndicator}>
-                  {currentPage + 1} / {pages.length}
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={styles.headerButton}
-                onPress={() => setShowSettings(true)}
-              >
-                <Text style={styles.headerButtonText}>⚙</Text>
-              </TouchableOpacity>
-            </View>
-          </SafeAreaView>
-        )}
-
-        <ScrollView
-          style={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContent}
-          onScroll={(e) => {
-            const pageHeight = SCREEN_WIDTH * 1.5;
-            const page = Math.round(e.nativeEvent.contentOffset.y / pageHeight);
-            if (page >= 0 && page < pages.length) {
-              setCurrentPage(page);
-            }
-          }}
-          scrollEventThrottle={16}
-        >
-          {pages.map((page, index) => (
-            <TouchableOpacity 
-              key={page.uri + index} 
-              activeOpacity={1}
-              onPress={toggleControls}
-            >
-              <View style={styles.pageContainer}>
-                <ExpoImage
-                  source={{ uri: page.uri }}
-                  style={styles.pageImage}
-                  contentFit="contain"
-                  transition={200}
-                />
-              </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-
-        {showControls && (
-          <SafeAreaView style={styles.bottomBarContainer}>
-            <View style={styles.bottomBar}>
-              <TouchableOpacity
-                style={styles.navButton}
-                onPress={handlePreviousPage}
-                disabled={currentPage === 0}
-              >
-                <Text style={[styles.navButtonText, currentPage === 0 && styles.disabled]}>
-                  ◀ Anterior
-                </Text>
-              </TouchableOpacity>
-              
-              <View style={styles.progressContainer}>
-                <View style={styles.progressBar}>
-                  <View
-                    style={[
-                      styles.progressFill,
-                      { width: `${((currentPage + 1) / pages.length) * 100}%` },
-                    ]}
-                  />
-                </View>
-              </View>
-              
-              <TouchableOpacity
-                style={styles.navButton}
-                onPress={handleNextPage}
-                disabled={currentPage === pages.length - 1}
-              >
-                <Text style={[styles.navButtonText, currentPage === pages.length - 1 && styles.disabled]}>
-                  Siguiente ▶
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </SafeAreaView>
-        )}
-
-        <View style={styles.settingsOverlay}>
-          {showSettings && (
-            <TouchableOpacity 
-              style={styles.settingsBackdrop} 
-              onPress={() => setShowSettings(false)}
-            />
-          )}
-        </View>
+        <Text style={styles.errorText}>{error || 'No se pudieron cargar las páginas'}</Text>
+        <Button title="Reintentar" onPress={() => loadPages()} />
+        <Button title="Volver" onPress={() => router.back()} variant="secondary" />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
-      
+      <StatusBar hidden={!showControls} />
       <Stack.Screen options={{ headerShown: false }} />
-      
-      <SafeAreaView style={styles.topBarContainer}>
-        <View style={styles.topBar}>
-          <TouchableOpacity
-            style={styles.headerButton}
-            onPress={() => router.back()}
-          >
-            <Text style={styles.headerButtonText}>←</Text>
-          </TouchableOpacity>
-          <View style={styles.titleContainer}>
-            <Text style={styles.chapterTitle}>Cargando...</Text>
-          </View>
-          <View style={styles.headerButton} />
-        </View>
-      </SafeAreaView>
 
-      <WebView
-        ref={webViewRef}
-        source={{ uri: readerUrl }}
-        style={styles.webView}
-        onMessage={handleMessage}
-        onLoadEnd={handleWebViewLoad}
-        injectedJavaScript={hideUIJS}
-        allowsBackForwardNavigationGestures={true}
-        allowsInlineMediaPlayback={true}
-        mediaPlaybackRequiresUserAction={false}
-        startInLoadingState={true}
-        renderLoading={() => (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={Theme.primary} />
-            <Text style={styles.loadingText}>Cargando lector...</Text>
-          </View>
+      <FlatList
+        ref={flatListRef}
+        data={pages}
+        keyExtractor={(item, index) => item.uri + index}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={toggleControls}
+          >
+            <View style={styles.pageContainer}>
+              <ImageWithSize
+                uri={item.uri}
+                priority={index <= currentPage + 2}
+              />
+            </View>
+          </TouchableOpacity>
         )}
+        style={styles.scrollContainer}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        onScroll={handleScroll}
+        onMomentumScrollEnd={handleScroll}
+        scrollEventThrottle={50}
+        onEndReached={loadMorePages}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={isLoadingMore ? (
+          <View style={styles.loadingMoreContainer}>
+            <Text style={styles.loadingMoreText}>Cargando más páginas...</Text>
+          </View>
+        ) : null}
       />
 
-      {isLoading && (
-        <View style={styles.loadingOverlay}>
-          <ActivityIndicator size="large" color={Theme.primary} />
-          <Text style={styles.loadingText}>Extrayendo páginas...</Text>
-        </View>
+      {showControls && (
+        <>
+          <View style={styles.topBar}>
+            <TouchableOpacity style={styles.headerButton} onPress={() => router.back()}>
+              <Text style={styles.headerButtonText}>←</Text>
+            </TouchableOpacity>
+            <View style={styles.titleContainer}>
+              <Text style={styles.chapterTitle} numberOfLines={1}>Tomo</Text>
+              <Text style={styles.pageIndicator}>
+                {currentPage + 1} / {pages.length}
+              </Text>
+            </View>
+            <View style={styles.headerButton} />
+          </View>
+
+          <View style={styles.bottomBar}>
+            <TouchableOpacity
+              style={styles.navButton}
+              onPress={handlePreviousPage}
+              disabled={currentPage === 0}
+            >
+              <Text style={[styles.navButtonText, currentPage === 0 && styles.disabled]}>
+                ◀ Anterior
+              </Text>
+            </TouchableOpacity>
+
+            <View style={styles.progressContainer}>
+              <View style={styles.progressBar}>
+                <View
+                  style={[
+                    styles.progressFill,
+                    { width: `${((currentPage + 1) / pages.length) * 100}%` },
+                  ]}
+                />
+              </View>
+            </View>
+
+            <TouchableOpacity
+              style={styles.navButton}
+              onPress={handleNextPage}
+              disabled={currentPage === pages.length - 1}
+            >
+              <Text style={[styles.navButtonText, currentPage === pages.length - 1 && styles.disabled]}>
+                Siguiente ▶
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </>
       )}
     </View>
   );
@@ -300,19 +273,45 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
   },
-  topBarContainer: {
+  centerContainer: {
+    flex: 1,
+    backgroundColor: Theme.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: Spacing.xl,
+    gap: Spacing.md,
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  scrollContent: {
+    alignItems: 'center',
+    paddingTop: 60,
+    paddingBottom: 80,
+  },
+  pageContainer: {
+    width: SCREEN_WIDTH,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+  },
+  pageImage: {
+    width: SCREEN_WIDTH,
+    height: undefined,
+    resizeMode: 'contain',
+  },
+  topBar: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    zIndex: 10,
-  },
-  topBar: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingTop: 50,
     paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.md,
+    paddingBottom: Spacing.md,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    zIndex: 10,
   },
   headerButton: {
     width: 44,
@@ -339,19 +338,18 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.sm,
     marginTop: 2,
   },
-  bottomBarContainer: {
+  bottomBar: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    zIndex: 10,
-  },
-  bottomBar: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.md,
+    paddingBottom: 40,
+    paddingTop: Spacing.md,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    zIndex: 10,
   },
   navButton: {
     padding: Spacing.sm,
@@ -378,54 +376,18 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: Theme.primary,
   },
-  webView: {
-    flex: 1,
-    backgroundColor: '#000',
+  errorText: {
+    color: Theme.error,
+    fontSize: FontSizes.lg,
+    textAlign: 'center',
+    marginBottom: Spacing.md,
   },
-  scrollContainer: {
-    flex: 1,
-  },
-  scrollContent: {
+  loadingMoreContainer: {
+    padding: Spacing.lg,
     alignItems: 'center',
-    paddingTop: 60,
-    paddingBottom: 80,
   },
-  pageContainer: {
-    width: SCREEN_WIDTH,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  pageImage: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_WIDTH * 1.5,
-  },
-  loadingContainer: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#000',
-  },
-  loadingOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
-    zIndex: 5,
-  },
-  loadingText: {
-    color: '#fff',
-    fontSize: FontSizes.base,
-    marginTop: Spacing.md,
-  },
-  settingsOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  settingsBackdrop: {
-    flex: 1,
-    backgroundColor: 'transparent',
+  loadingMoreText: {
+    color: Theme.textSecondary,
+    fontSize: FontSizes.sm,
   },
 });

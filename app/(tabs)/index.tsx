@@ -126,6 +126,17 @@ export default function HomeScreen() {
         <Text style={styles.subtitle}>Manga en español</Text>
       </View>
 
+      <TouchableOpacity 
+        style={styles.searchBarContainer}
+        activeOpacity={0.8}
+        onPress={() => router.push('/(tabs)/search' as any)}
+      >
+        <View style={styles.searchBar}>
+          <View style={styles.searchIconCircle} />
+          <Text style={styles.searchPlaceholder}>Buscar manga...</Text>
+        </View>
+      </TouchableOpacity>
+
       <FlatList
         data={series}
         keyExtractor={(item) => item.id}
@@ -261,6 +272,32 @@ const styles = StyleSheet.create({
   statusText: {
     fontSize: FontSizes.xs,
     color: Theme.textSecondary,
+  },
+  searchBarContainer: {
+    paddingHorizontal: Spacing.md,
+    paddingBottom: Spacing.md,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Theme.backgroundSecondary,
+    borderRadius: 28,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.sm,
+    borderWidth: 1,
+    borderColor: Theme.border,
+  },
+  searchIconCircle: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: Theme.textTertiary,
+    marginRight: Spacing.sm,
+  },
+  searchPlaceholder: {
+    color: Theme.textTertiary,
+    fontSize: FontSizes.base,
   },
   errorText: {
     color: Theme.error,

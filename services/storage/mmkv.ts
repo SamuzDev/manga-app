@@ -81,7 +81,7 @@ export const storageUtils = {
   },
 
   // Obtener todas las keys
-  getAllKeys: async (): Promise<string[]> => {
+  getAllKeys: async (): Promise<readonly string[]> => {
     return await AsyncStorage.getAllKeys();
   },
 };

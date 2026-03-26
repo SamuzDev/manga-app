@@ -41,7 +41,13 @@ export default function YupSeriesDetailScreen() {
     try {
       setIsLoading(true);
       setError(null);
+      console.log('Loading series with id:', id);
       const data = await yupMangaAPI.getSeriesById(id as string);
+      console.log('Series loaded, coverUrl:', data.coverUrl);
+      console.log('Total volumes:', data.volumes.length);
+      if (data.volumes.length > 0) {
+        console.log('First volume cover:', data.volumes[0].coverUrl);
+      }
       setSeries(data);
     } catch (err) {
       console.error('Error loading series details:', err);
@@ -49,6 +55,10 @@ export default function YupSeriesDetailScreen() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const reloadSeries = async () => {
+    await loadSeriesDetails();
   };
 
   const handleToggleLibrary = () => {
@@ -112,12 +122,17 @@ export default function YupSeriesDetailScreen() {
         {/* Cover Image */}
         <View style={styles.coverContainer}>
           <ExpoImage
-            source={{ uri: yupMangaAPI.getFullUrl(series.coverUrl) }}
+            source={{ 
+              uri: (series.coverUrl || (series.volumes[0]?.coverUrl))
+                ? yupMangaAPI.getFullUrl(series.coverUrl || series.volumes[0]?.coverUrl || '')
+                : undefined 
+            }}
             style={styles.coverImage}
             contentFit="cover"
             placeholder={{ blurhash: 'L6PZfSi_.AyE_3t7t7R**0o#DgR4' }}
+            transition={200}
           />
-          <View style={styles.coverOverlay} />
+          {(series.coverUrl || series.volumes[0]?.coverUrl) && <View style={styles.coverOverlay} />}
         </View>
 
         {/* Header Content */}
@@ -126,8 +141,11 @@ export default function YupSeriesDetailScreen() {
           <TouchableOpacity 
             style={styles.backButton}
             onPress={() => router.back()}
+            activeOpacity={0.7}
           >
-            <Text style={styles.backButtonText}>←</Text>
+            <View style={styles.backButtonInner}>
+              <Text style={styles.backButtonIcon}>‹</Text>
+            </View>
           </TouchableOpacity>
 
           {/* Title */}
@@ -190,9 +208,14 @@ export default function YupSeriesDetailScreen() {
 
           {/* Volumes */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>
-              Tomos ({series.volumes.length})
-            </Text>
+            <View style={styles.volumeHeader}>
+              <Text style={styles.sectionTitle}>
+                Tomos ({series.volumes.length})
+              </Text>
+              <TouchableOpacity onPress={reloadSeries}>
+                <Text style={styles.reloadText}>↻</Text>
+              </TouchableOpacity>
+            </View>
             
             {series.volumes.length === 0 ? (
               <Text style={styles.emptyText}>No hay tomos disponibles</Text>
@@ -207,9 +230,10 @@ export default function YupSeriesDetailScreen() {
                   >
                     <View style={styles.volumeImageContainer}>
                       <ExpoImage
-                        source={{ uri: yupMangaAPI.getCoverProxyUrl(volume.id) }}
+                        source={{ uri: volume.coverUrl || yupMangaAPI.getCoverProxyUrl(volume.id) }}
                         style={styles.volumeImage}
                         contentFit="cover"
+                        placeholder={{ blurhash: 'L6PZfSi_.AyE_3t7t7R**0o#DgR4' }}
                       />
                       <View style={styles.volumeNumber}>
                         <Text style={styles.volumeNumberText}>
@@ -277,18 +301,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
   },
   backButton: {
-    width: 44,
-    height: 44,
+    position: 'absolute',
+    top: Spacing.xl + 20,
+    left: Spacing.md,
+    zIndex: 10,
+  },
+  backButtonInner: {
+    width: 40,
+    height: 40,
     borderRadius: BorderRadius.full,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.6)',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: Spacing.md,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
   },
-  backButtonText: {
+  backButtonIcon: {
     color: '#fff',
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 28,
+    fontWeight: '300',
+    marginTop: -2,
   },
   title: {
     fontSize: FontSizes['3xl'],
@@ -361,11 +393,21 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: Spacing.xl,
   },
+  volumeHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: Spacing.md,
+  },
   sectionTitle: {
     fontSize: FontSizes.xl,
     fontWeight: '600',
     color: Theme.text,
-    marginBottom: Spacing.md,
+  },
+  reloadText: {
+    fontSize: FontSizes.xl,
+    color: Theme.primary,
+    padding: Spacing.xs,
   },
   description: {
     fontSize: FontSizes.base,

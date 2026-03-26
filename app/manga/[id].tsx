@@ -28,7 +28,10 @@ export default function MangaDetailScreen() {
   const [manga, setManga] = useState<Manga | null>(null);
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [offset, setOffset] = useState(0);
   
   const { addToLibrary, removeFromLibrary, isInLibrary } = useLibraryStore();
   const inLibrary = manga ? isInLibrary(manga.id) : false;
@@ -41,20 +44,47 @@ export default function MangaDetailScreen() {
     try {
       setIsLoading(true);
       setError(null);
+      setOffset(0);
 
-      // Cargar manga y capítulos en paralelo
-      const [mangaData, chaptersData] = await Promise.all([
-        mangadexAPI.getMangaById(id as string),
-        mangadexAPI.getChapters(id as string, { limit: 20 }),
-      ]);
+      const mangaData = await mangadexAPI.getMangaById(id as string);
+      const chaptersData = await mangadexAPI.getChapters(id as string, { 
+        limit: 100, 
+        offset: 0 
+      });
 
       setManga(mangaData);
       setChapters(chaptersData.data);
+      setHasMore(chaptersData.data.length === 100);
+      setOffset(100);
     } catch (err) {
       console.error('Error loading manga details:', err);
       setError('Error al cargar los detalles del manga');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const loadMoreChapters = async () => {
+    if (isLoadingMore || !hasMore) return;
+
+    try {
+      setIsLoadingMore(true);
+      const chaptersData = await mangadexAPI.getChapters(id as string, { 
+        limit: 100, 
+        offset 
+      });
+
+      if (chaptersData.data.length > 0) {
+        setChapters(prev => [...prev, ...chaptersData.data]);
+        setOffset(prev => prev + 100);
+        setHasMore(chaptersData.data.length === 100);
+      } else {
+        setHasMore(false);
+      }
+    } catch (err) {
+      console.error('Error loading more chapters:', err);
+    } finally {
+      setIsLoadingMore(false);
     }
   };
 
@@ -152,9 +182,14 @@ export default function MangaDetailScreen() {
 
         {/* Chapters */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
-            Capítulos ({chapters.length})
-          </Text>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>
+              Capítulos ({chapters.length})
+            </Text>
+            <TouchableOpacity onPress={loadMangaDetails} style={styles.reloadButton}>
+              <Text style={styles.reloadText}>↻</Text>
+            </TouchableOpacity>
+          </View>
           {chapters.length === 0 ? (
             <Text style={styles.emptyText}>No hay capítulos disponibles</Text>
           ) : (
@@ -182,6 +217,17 @@ export default function MangaDetailScreen() {
                 </Text>
               </TouchableOpacity>
             ))
+          )}
+          {hasMore && (
+            <TouchableOpacity 
+              style={styles.loadMoreButton} 
+              onPress={loadMoreChapters}
+              disabled={isLoadingMore}
+            >
+              <Text style={styles.loadMoreText}>
+                {isLoadingMore ? 'Cargando...' : 'Cargar más capítulos'}
+              </Text>
+            </TouchableOpacity>
           )}
         </View>
       </View>
@@ -244,6 +290,31 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: Spacing.xl,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: Spacing.md,
+  },
+  reloadButton: {
+    padding: Spacing.xs,
+  },
+  reloadText: {
+    fontSize: FontSizes.xl,
+    color: Theme.textSecondary,
+  },
+  loadMoreButton: {
+    backgroundColor: Theme.backgroundTertiary,
+    padding: Spacing.md,
+    borderRadius: BorderRadius.md,
+    alignItems: 'center',
+    marginTop: Spacing.md,
+  },
+  loadMoreText: {
+    fontSize: FontSizes.base,
+    color: Theme.textSecondary,
+    fontWeight: '600',
   },
   sectionTitle: {
     fontSize: FontSizes.xl,

@@ -1,5 +1,5 @@
 /**
- * Search Screen - Búsqueda en MangaDex y YupManga
+ * Search Screen - Búsqueda en YupManga
  */
 
 import React, { useState, useCallback, useRef } from 'react';
@@ -11,32 +11,27 @@ import {
   SafeAreaView,
   ActivityIndicator,
   TouchableOpacity,
+  TextInput,
   Dimensions,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
 import { Image as ExpoImage } from 'expo-image';
 import { Theme, FontSizes, Spacing, BorderRadius } from '@/constants/theme';
-import { Input } from '@/components/ui/Input';
-import { mangadexAPI } from '@/services/api/mangadex';
 import { yupMangaAPI } from '@/services/api/yupmanga';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const CARD_WIDTH = (SCREEN_WIDTH - Spacing.md * 2 - Spacing.sm * 3) / 2;
-
-type Source = 'mangadex' | 'yupmanga';
+const CARD_WIDTH = (SCREEN_WIDTH - Spacing.md * 2 - Spacing.sm) / 2;
 
 interface SearchResult {
   id: string;
   title: string;
   coverUrl: string;
-  source: Source;
 }
 
 export default function SearchScreen() {
   const router = useRouter();
   const [query, setQuery] = useState('');
-  const [source, setSource] = useState<Source>('yupmanga');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
@@ -54,31 +49,16 @@ export default function SearchScreen() {
     setHasSearched(true);
 
     try {
-      if (source === 'mangadex') {
-        const response = await mangadexAPI.searchManga(searchQuery, 20);
-        const searchResults: SearchResult[] = response.data.map((manga) => {
-          const coverArt = manga.relationships.find((rel) => rel.type === 'cover_art');
-          const coverUrl = coverArt
-            ? mangadexAPI.getCoverUrl(manga.id, (coverArt as any).attributes?.fileName)
-            : '';
-          return {
-            id: manga.id,
-            title: mangadexAPI['getTitle'](manga.attributes.title),
-            coverUrl,
-            source: 'mangadex',
-          };
-        });
-        setResults(searchResults);
-      } else {
-        const response = await yupMangaAPI.searchSeries(searchQuery);
-        const searchResults: SearchResult[] = response.map((series) => ({
-          id: series.id,
-          title: series.title,
-          coverUrl: series.coverUrl,
-          source: 'yupmanga',
-        }));
-        setResults(searchResults);
-      }
+      console.log('Searching yupmanga for:', searchQuery);
+      const response = await yupMangaAPI.searchSeries(searchQuery);
+      console.log('Yupmanga response:', response.length, 'results');
+      const searchResults: SearchResult[] = response.map((series) => ({
+        id: series.id,
+        title: series.title,
+        coverUrl: series.coverUrl,
+      }));
+      console.log('Setting results:', searchResults.length);
+      setResults(searchResults);
     } catch (error) {
       console.error('Error searching:', error);
       setResults([]);
@@ -99,19 +79,8 @@ export default function SearchScreen() {
     }, 500);
   };
 
-  const onSourceChange = (newSource: Source) => {
-    setSource(newSource);
-    if (query.trim().length >= 2) {
-      handleSearch(query);
-    }
-  };
-
   const handlePress = (item: SearchResult) => {
-    if (item.source === 'mangadex') {
-      router.push(`/manga/${item.id}`);
-    } else {
-      router.push(`/series/yup/${item.id}` as any);
-    }
+    router.push(`/series/yup/${item.id}` as any);
   };
 
   const renderCard = useCallback(({ item }: { item: SearchResult }) => (
@@ -126,11 +95,6 @@ export default function SearchScreen() {
         contentFit="cover"
         placeholder={{ blurhash: 'L6PZfSi_.AyE_3t7t7R**0o#DgR4' }}
       />
-      <View style={styles.sourceBadge}>
-        <Text style={styles.sourceText}>
-          {item.source === 'mangadex' ? 'MD' : 'Yup'}
-        </Text>
-      </View>
       <View style={styles.cardContent}>
         <Text style={styles.cardTitle} numberOfLines={2}>
           {item.title}
@@ -145,47 +109,34 @@ export default function SearchScreen() {
 
       <View style={styles.header}>
         <Text style={styles.title}>Buscar</Text>
-        
-        <View style={styles.sourceSelector}>
-          <TouchableOpacity
-            style={[
-              styles.sourceButton,
-              source === 'yupmanga' && styles.sourceButtonActive,
-            ]}
-            onPress={() => onSourceChange('yupmanga')}
-          >
-            <Text style={[
-              styles.sourceButtonText,
-              source === 'yupmanga' && styles.sourceButtonTextActive,
-            ]}>
-              YupManga
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.sourceButton,
-              source === 'mangadex' && styles.sourceButtonActive,
-            ]}
-            onPress={() => onSourceChange('mangadex')}
-          >
-            <Text style={[
-              styles.sourceButtonText,
-              source === 'mangadex' && styles.sourceButtonTextActive,
-            ]}>
-              MangaDex
-            </Text>
-          </TouchableOpacity>
-        </View>
+      </View>
 
-        <Input
-          placeholder={`Buscar en ${source === 'yupmanga' ? 'YupManga' : 'MangaDex'}...`}
-          value={query}
-          onChangeText={onChangeText}
-          autoCapitalize="none"
-          autoCorrect={false}
-          returnKeyType="search"
-          containerStyle={styles.searchInput}
-        />
+      <View style={styles.searchContainer}>
+        <View style={styles.searchBar}>
+          <View style={styles.searchIconContainer}>
+            <View style={styles.searchIconDot} />
+          </View>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Buscar manga..."
+            placeholderTextColor={Theme.textTertiary}
+            value={query}
+            onChangeText={onChangeText}
+            autoCorrect={false}
+            autoCapitalize="none"
+          />
+          {query.length > 0 && (
+            <TouchableOpacity 
+              style={styles.clearButton}
+              onPress={() => { setQuery(''); setResults([]); setHasSearched(false); }}
+            >
+              <View style={styles.clearIcon}>
+                <View style={[styles.clearIconDot, styles.clearIconDot1]} />
+                <View style={[styles.clearIconDot, styles.clearIconDot2]} />
+              </View>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
       {isSearching ? (
@@ -210,7 +161,7 @@ export default function SearchScreen() {
       ) : (
         <FlatList
           data={results}
-          keyExtractor={(item) => `${item.source}-${item.id}`}
+          keyExtractor={(item) => item.id}
           numColumns={2}
           columnWrapperStyle={styles.row}
           contentContainerStyle={styles.listContent}
@@ -230,43 +181,72 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: Spacing.md,
     paddingTop: Spacing.lg,
-    paddingBottom: Spacing.md,
+    paddingBottom: Spacing.sm,
   },
   title: {
     fontSize: FontSizes['3xl'],
     fontWeight: 'bold',
     color: Theme.text,
-    marginBottom: Spacing.md,
   },
-  sourceSelector: {
-    flexDirection: 'row',
-    gap: Spacing.sm,
-    marginBottom: Spacing.md,
-  },
-  sourceButton: {
-    flex: 1,
-    paddingVertical: Spacing.sm,
+  searchContainer: {
     paddingHorizontal: Spacing.md,
-    backgroundColor: Theme.backgroundSecondary,
-    borderRadius: BorderRadius.md,
+    paddingBottom: Spacing.md,
+  },
+  searchBar: {
+    flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: Theme.backgroundSecondary,
+    borderRadius: 28,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.sm,
     borderWidth: 1,
     borderColor: Theme.border,
   },
-  sourceButtonActive: {
-    backgroundColor: Theme.primary,
-    borderColor: Theme.primary,
+  searchIconContainer: {
+    width: 20,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: Spacing.sm,
   },
-  sourceButtonText: {
-    color: Theme.textSecondary,
-    fontSize: FontSizes.sm,
-    fontWeight: '600',
-  },
-  sourceButtonTextActive: {
-    color: '#fff',
+  searchIconDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: Theme.textTertiary,
   },
   searchInput: {
-    marginBottom: 0,
+    flex: 1,
+    color: Theme.text,
+    fontSize: FontSizes.base,
+    paddingVertical: Spacing.xs,
+  },
+  clearButton: {
+    padding: Spacing.xs,
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  clearIcon: {
+    width: 18,
+    height: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  clearIconDot: {
+    position: 'absolute',
+    width: 14,
+    height: 2,
+    backgroundColor: Theme.textTertiary,
+    borderRadius: 1,
+  },
+  clearIconDot1: {
+    transform: [{ rotate: '45deg' }],
+  },
+  clearIconDot2: {
+    transform: [{ rotate: '-45deg' }],
   },
   listContent: {
     paddingHorizontal: Spacing.md,
@@ -288,20 +268,6 @@ const styles = StyleSheet.create({
     width: '100%',
     aspectRatio: 2 / 3,
     backgroundColor: Theme.backgroundTertiary,
-  },
-  sourceBadge: {
-    position: 'absolute',
-    top: Spacing.xs,
-    right: Spacing.xs,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    paddingHorizontal: Spacing.xs,
-    paddingVertical: 2,
-    borderRadius: BorderRadius.sm,
-  },
-  sourceText: {
-    color: '#fff',
-    fontSize: FontSizes.xs,
-    fontWeight: 'bold',
   },
   cardContent: {
     padding: Spacing.sm,
